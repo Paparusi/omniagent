@@ -1,8 +1,8 @@
 {
   "name": "omniagent",
-  "version": "2026.2.22",
-  "description": "Multi-channel AI gateway with extensible messaging integrations",
-  "keywords": [],
+  "version": "2.0.0",
+  "description": "The AI Agent Platform with Built-in Economy Ã¢â‚¬â€ marketplace, vault, and blockchain payments for AI agents",
+  "keywords": ["ai", "agent", "ai-agent", "marketplace", "payments", "blockchain", "usdc", "mcp", "discord", "slack", "telegram"],
   "homepage": "https://github.com/Paparusi/omniagent#readme",
   "bugs": {
     "url": "https://github.com/Paparusi/omniagent/issues"
@@ -14,6 +14,7 @@
     "url": "git+https://github.com/Paparusi/omniagent.git"
   },
   "bin": {
+    "omni-agent": "omniagent.mjs",
     "omniagent": "omniagent.mjs"
   },
   "directories": {

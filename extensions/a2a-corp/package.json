@@ -11,16 +11,10 @@
     "test:watch": "vitest",
     "typecheck": "tsc --noEmit"
   },
-  "dependencies": {
-    "@sinclair/typebox": "^0.34.0",
-    "agentforge-sdk": "file:../../../AI Agent Space/agent-marketplace/sdk",
-    "@passbox/sdk": "file:../../../passbox/packages/sdk"
-  },
+  "dependencies": {},
   "devDependencies": {
-    "omniagent": "file:../../",
-    "typescript": "^5.5.0",
-    "tsup": "^8.0.0",
-    "vitest": "^3.0.0"
+    "omniagent": "workspace:*",
+    "typescript": "^5.5.0"
   },
   "files": [
     "dist",
