@@ -20,6 +20,7 @@ import { registerApayTools } from "./tools/apay.js";
 import { registerCompositeTools } from "./tools/composite.js";
 import { registerA2ACommands } from "./commands.js";
 import { checkPlatformStatus } from "./service.js";
+import { registerA2AProtocol } from "./protocol/index.js";
 
 // Re-export for consumers
 export { loadA2AConfig } from "./config.js";
@@ -107,6 +108,9 @@ export function registerA2ATools(
       api.logger.debug(`A2A tool called: ${toolName}`);
     }
   });
+
+  // ── A2A Protocol (Google A2A v0.2) ────────────────────────────
+  registerA2AProtocol(api);
 
   // ── Service for health checks ──────────────────────────────────
   api.registerService({
