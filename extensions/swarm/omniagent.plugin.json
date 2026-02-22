@@ -1,0 +1,48 @@
+{
+  "id": "swarm",
+  "name": "Multi-Agent Swarm",
+  "description": "Swarm intelligence — spawn N specialized AI agents in parallel, coordinating via message passing to solve complex tasks collectively.",
+  "version": "2.0.0",
+  "channels": [],
+  "skills": [],
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "maxAgentsPerSwarm": {
+        "type": "number",
+        "default": 10,
+        "description": "Maximum number of agents per swarm"
+      },
+      "maxConcurrentSwarms": {
+        "type": "number",
+        "default": 5,
+        "description": "Maximum concurrent swarms"
+      },
+      "agentTimeoutMs": {
+        "type": "number",
+        "default": 300000,
+        "description": "Per-agent task timeout in milliseconds"
+      },
+      "defaultConsensus": {
+        "type": "string",
+        "enum": ["merge", "vote", "chain", "best"],
+        "default": "merge",
+        "description": "Default result aggregation strategy"
+      }
+    }
+  },
+  "uiHints": {
+    "maxAgentsPerSwarm": {
+      "label": "Max Agents",
+      "sensitive": false,
+      "placeholder": "10",
+      "help": "Maximum number of specialized agents in a single swarm"
+    },
+    "defaultConsensus": {
+      "label": "Consensus Strategy",
+      "sensitive": false,
+      "placeholder": "merge",
+      "help": "How to aggregate agent results: merge (combine), vote, chain (pipeline), best (pick highest quality)"
+    }
+  }
+}

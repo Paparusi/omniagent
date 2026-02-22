@@ -1,0 +1,8 @@
+{
+  "name": "omniagent-swarm",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Multi-Agent Swarm intelligence — OmniAgent extension",
+  "type": "module",
+  "main": "src/index.ts"
+}
