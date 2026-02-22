@@ -9,7 +9,7 @@ $pkgPath = Join-Path $root "package.json"
 $pkg = Get-Content $pkgPath -Raw
 
 # Temporarily change name for publish
-$publishPkg = $pkg.Replace('"name": "omniagent"', '"name": "@paparusi/omniagent"')
+$publishPkg = $pkg.Replace('"name": "omniagent"', '"name": "omniorg"')
 [System.IO.File]::WriteAllText($pkgPath, $publishPkg)
 
 Write-Host "Package name set to '@paparusi/omniagent' for publish" -ForegroundColor Yellow
