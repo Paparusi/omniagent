@@ -3,7 +3,7 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { fileURLToPath } from "node:url";
 
-const CORE_PACKAGE_NAMES = new Set(["omniagent"]);
+const CORE_PACKAGE_NAMES = new Set(["omniagent", "omniorg"]);
 
 async function readPackageName(dir: string): Promise<string | null> {
   try {
