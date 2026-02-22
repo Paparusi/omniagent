@@ -21,7 +21,7 @@ OmniAgent is an AI agent platform forked from [OpenClaw](https://github.com/stei
 Runtime: **Node >= 22**
 
 ```bash
-npm install -g omniagent@latest
+npm install -g omniorg
 
 omniagent onboard --install-daemon
 ```
