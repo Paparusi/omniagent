@@ -1,0 +1,74 @@
+{
+  "id": "shannon",
+  "name": "Shannon Security Scanner",
+  "description": "Autonomous AI-powered security scanner. Deploys 13 specialized agents across 5 phases to perform comprehensive pentesting of web applications.",
+  "version": "2.0.0",
+  "channels": [],
+  "skills": [],
+  "configSchema": {
+    "type": "object",
+    "properties": {
+      "shannonPath": {
+        "type": "string",
+        "description": "Path to Shannon installation directory"
+      },
+      "temporal": {
+        "type": "object",
+        "properties": {
+          "address": {
+            "type": "string",
+            "default": "localhost:7233",
+            "description": "Temporal server address"
+          },
+          "taskQueue": {
+            "type": "string",
+            "default": "shannon-pipeline",
+            "description": "Temporal task queue name"
+          }
+        }
+      },
+      "mode": {
+        "type": "string",
+        "enum": ["temporal", "cli", "auto"],
+        "default": "auto",
+        "description": "Execution mode: temporal (direct API), cli (subprocess), or auto-detect"
+      },
+      "outputDir": {
+        "type": "string",
+        "default": "./audit-logs",
+        "description": "Directory for scan reports and deliverables"
+      },
+      "maxConcurrentScans": {
+        "type": "number",
+        "default": 3,
+        "description": "Maximum number of concurrent security scans"
+      }
+    }
+  },
+  "uiHints": {
+    "shannonPath": {
+      "label": "Shannon Path",
+      "sensitive": false,
+      "placeholder": "/opt/shannon",
+      "help": "Path to Shannon installation (or use ${SHANNON_PATH})"
+    },
+    "temporal.address": {
+      "label": "Temporal Address",
+      "sensitive": false,
+      "placeholder": "localhost:7233",
+      "help": "Temporal server address for workflow orchestration"
+    },
+    "mode": {
+      "label": "Execution Mode",
+      "sensitive": false,
+      "placeholder": "auto",
+      "help": "How to run Shannon: 'temporal' for direct API, 'cli' for subprocess, 'auto' to detect"
+    },
+    "outputDir": {
+      "label": "Output Directory",
+      "sensitive": false,
+      "placeholder": "./audit-logs",
+      "help": "Where to save security scan reports"
+    }
+  }
+}

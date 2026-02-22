@@ -1,0 +1,8 @@
+{
+  "name": "omniagent-shannon",
+  "version": "2.0.0",
+  "private": true,
+  "description": "Shannon autonomous AI security scanner — OmniAgent extension",
+  "type": "module",
+  "main": "src/index.ts"
+}

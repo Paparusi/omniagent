@@ -1,11 +1,12 @@
 /**
  * A2A Corp economic layer — core module for OmniAgent.
  *
- * Provides 33 native tools across three platforms:
+ * Provides 38 native tools across three platforms + security:
  * - AgentForge: AI tool marketplace (6 tools)
  * - PassBox: Zero-knowledge secrets vault (10 tools)
  * - APay: Blockchain USDC payments (13 tools)
  * - Composite: Cross-platform workflows (4 tools)
+ * - Shannon: Autonomous AI security scanner (5 tools)
  *
  * This is the core-module entry point.  The extension at
  * extensions/a2a-corp/ is now a thin backward-compat wrapper that
@@ -21,6 +22,7 @@ import { registerCompositeTools } from "./tools/composite.js";
 import { registerA2ACommands } from "./commands.js";
 import { checkPlatformStatus } from "./service.js";
 import { registerA2AProtocol } from "./protocol/index.js";
+import { registerShannon } from "../shannon/index.js";
 
 // Re-export for consumers
 export { loadA2AConfig } from "./config.js";
@@ -111,6 +113,9 @@ export function registerA2ATools(
 
   // ── A2A Protocol (Google A2A v0.2) ────────────────────────────
   registerA2AProtocol(api);
+
+  // ── Shannon Security Scanner ─────────────────────────────────
+  registerShannon(api);
 
   // ── Service for health checks ──────────────────────────────────
   api.registerService({
