@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { OmniAgentConfig } from "../config/config.js";
 import { resolveAgentAvatar } from "./identity-avatar.js";
 
 async function writeFile(filePath: string, contents = "avatar") {
@@ -11,7 +11,7 @@ async function writeFile(filePath: string, contents = "avatar") {
 }
 
 async function expectLocalAvatarPath(
-  cfg: OpenClawConfig,
+  cfg: OmniAgentConfig,
   workspace: string,
   expectedRelativePath: string,
 ) {
@@ -27,7 +27,7 @@ async function expectLocalAvatarPath(
 const tempRoots: string[] = [];
 
 async function createTempAvatarRoot() {
-  const root = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-avatar-"));
+  const root = await fs.mkdtemp(path.join(os.tmpdir(), "omniagent-avatar-"));
   tempRoots.push(root);
   return root;
 }
@@ -47,7 +47,7 @@ describe("resolveAgentAvatar", () => {
     const avatarPath = path.join(workspace, "avatars", "main.png");
     await writeFile(avatarPath);
 
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       agents: {
         list: [
           {
@@ -69,7 +69,7 @@ describe("resolveAgentAvatar", () => {
     const outsidePath = path.join(root, "outside.png");
     await writeFile(outsidePath);
 
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       agents: {
         list: [
           {
@@ -100,7 +100,7 @@ describe("resolveAgentAvatar", () => {
       "utf-8",
     );
 
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       agents: {
         list: [{ id: "main", workspace }],
       },
@@ -114,7 +114,7 @@ describe("resolveAgentAvatar", () => {
     const workspace = path.join(root, "work");
     await fs.mkdir(workspace, { recursive: true });
 
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       agents: {
         list: [{ id: "main", workspace, identity: { avatar: "avatars/missing.png" } }],
       },
@@ -128,7 +128,7 @@ describe("resolveAgentAvatar", () => {
   });
 
   it("accepts remote and data avatars", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       agents: {
         list: [
           { id: "main", identity: { avatar: "https://example.com/avatar.png" } },

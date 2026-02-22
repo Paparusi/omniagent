@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClawChatUI
+@testable import OmniAgentChatUI
 
 @Suite("ChatMarkdownPreprocessor")
 struct ChatMarkdownPreprocessorTests {
@@ -24,7 +24,7 @@ struct ChatMarkdownPreprocessorTests {
         ```json
         {
           "message_id": "123",
-          "sender": "openclaw-ios"
+          "sender": "omniagent-ios"
         }
         ```
 

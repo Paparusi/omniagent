@@ -16,7 +16,7 @@ public struct DeviceIdentity: Codable, Sendable {
 }
 
 enum DeviceIdentityPaths {
-    private static let stateDirEnv = ["OPENCLAW_STATE_DIR"]
+    private static let stateDirEnv = ["OMNIAGENT_STATE_DIR"]
 
     static func stateDirURL() -> URL {
         for key in self.stateDirEnv {
@@ -29,10 +29,10 @@ enum DeviceIdentityPaths {
         }
 
         if let appSupport = FileManager.default.urls(for: .applicationSupportDirectory, in: .userDomainMask).first {
-            return appSupport.appendingPathComponent("OpenClaw", isDirectory: true)
+            return appSupport.appendingPathComponent("OmniAgent", isDirectory: true)
         }
 
-        return FileManager.default.temporaryDirectory.appendingPathComponent("openclaw", isDirectory: true)
+        return FileManager.default.temporaryDirectory.appendingPathComponent("omniagent", isDirectory: true)
     }
 }
 

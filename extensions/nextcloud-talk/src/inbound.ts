@@ -2,9 +2,9 @@ import {
   createReplyPrefixOptions,
   logInboundDrop,
   resolveControlCommandGate,
-  type OpenClawConfig,
+  type OmniAgentConfig,
   type RuntimeEnv,
-} from "openclaw/plugin-sdk";
+} from "omniagent/plugin-sdk";
 import type { ResolvedNextcloudTalkAccount } from "./accounts.js";
 import {
   normalizeNextcloudTalkAllowlist,
@@ -122,7 +122,7 @@ export async function handleNextcloudTalkInbound(params: {
   const effectiveGroupAllowFrom = [...baseGroupAllowFrom, ...storeAllowList].filter(Boolean);
 
   const allowTextCommands = core.channel.commands.shouldHandleTextCommands({
-    cfg: config as OpenClawConfig,
+    cfg: config as OmniAgentConfig,
     surface: CHANNEL_ID,
   });
   const useAccessGroups =
@@ -131,7 +131,7 @@ export async function handleNextcloudTalkInbound(params: {
     allowFrom: isGroup ? effectiveGroupAllowFrom : effectiveAllowFrom,
     senderId,
   }).allowed;
-  const hasControlCommand = core.channel.text.hasControlCommand(rawBody, config as OpenClawConfig);
+  const hasControlCommand = core.channel.text.hasControlCommand(rawBody, config as OmniAgentConfig);
   const commandGate = resolveControlCommandGate({
     useAccessGroups,
     authorizers: [
@@ -208,7 +208,7 @@ export async function handleNextcloudTalkInbound(params: {
     return;
   }
 
-  const mentionRegexes = core.channel.mentions.buildMentionRegexes(config as OpenClawConfig);
+  const mentionRegexes = core.channel.mentions.buildMentionRegexes(config as OmniAgentConfig);
   const wasMentioned = mentionRegexes.length
     ? core.channel.mentions.matchesMentionPatterns(rawBody, mentionRegexes)
     : false;
@@ -232,7 +232,7 @@ export async function handleNextcloudTalkInbound(params: {
   }
 
   const route = core.channel.routing.resolveAgentRoute({
-    cfg: config as OpenClawConfig,
+    cfg: config as OmniAgentConfig,
     channel: CHANNEL_ID,
     accountId: account.accountId,
     peer: {
@@ -248,7 +248,7 @@ export async function handleNextcloudTalkInbound(params: {
       agentId: route.agentId,
     },
   );
-  const envelopeOptions = core.channel.reply.resolveEnvelopeFormatOptions(config as OpenClawConfig);
+  const envelopeOptions = core.channel.reply.resolveEnvelopeFormatOptions(config as OmniAgentConfig);
   const previousTimestamp = core.channel.session.readSessionUpdatedAt({
     storePath,
     sessionKey: route.sessionKey,
@@ -299,7 +299,7 @@ export async function handleNextcloudTalkInbound(params: {
   });
 
   const { onModelSelected, ...prefixOptions } = createReplyPrefixOptions({
-    cfg: config as OpenClawConfig,
+    cfg: config as OmniAgentConfig,
     agentId: route.agentId,
     channel: CHANNEL_ID,
     accountId: account.accountId,
@@ -307,7 +307,7 @@ export async function handleNextcloudTalkInbound(params: {
 
   await core.channel.reply.dispatchReplyWithBufferedBlockDispatcher({
     ctx: ctxPayload,
-    cfg: config as OpenClawConfig,
+    cfg: config as OmniAgentConfig,
     dispatcherOptions: {
       ...prefixOptions,
       deliver: async (payload) => {

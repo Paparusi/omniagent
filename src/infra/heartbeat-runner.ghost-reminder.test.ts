@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { telegramPlugin } from "../../extensions/telegram/src/channel.js";
 import { setTelegramRuntime } from "../../extensions/telegram/src/runtime.js";
 import * as replyModule from "../auto-reply/reply.js";
-import type { OpenClawConfig } from "../config/config.js";
+import type { OmniAgentConfig } from "../config/config.js";
 import { resolveMainSessionKey } from "../config/sessions.js";
 import { setActivePluginRegistry } from "../plugins/runtime.js";
 import { createPluginRuntime } from "../plugins/runtime/index.js";
@@ -57,9 +57,9 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   const createConfig = async (
     tmpDir: string,
-  ): Promise<{ cfg: OpenClawConfig; sessionKey: string }> => {
+  ): Promise<{ cfg: OmniAgentConfig; sessionKey: string }> => {
     const storePath = path.join(tmpDir, "sessions.json");
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       agents: {
         defaults: {
           workspace: tmpDir,
@@ -124,7 +124,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
   };
 
   it("does not use CRON_EVENT_PROMPT when only a HEARTBEAT_OK event is present", async () => {
-    await withTempDir("openclaw-ghost-", async (tmpDir) => {
+    await withTempDir("omniagent-ghost-", async (tmpDir) => {
       const { sendTelegram, getReplySpy } = createHeartbeatDeps("Heartbeat check-in");
       const { cfg } = await createConfig(tmpDir);
       enqueueSystemEvent("HEARTBEAT_OK", { sessionKey: resolveMainSessionKey(cfg) });
@@ -150,7 +150,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("uses CRON_EVENT_PROMPT when an actionable cron event exists", async () => {
     const { result, sendTelegram, getReplySpy } = await runCronReminderCase(
-      "openclaw-cron-",
+      "omniagent-cron-",
       (sessionKey) => {
         enqueueSystemEvent("Reminder: Check Base Scout results", { sessionKey });
       },
@@ -162,7 +162,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
 
   it("uses CRON_EVENT_PROMPT when cron events are mixed with heartbeat noise", async () => {
     const { result, sendTelegram, getReplySpy } = await runCronReminderCase(
-      "openclaw-cron-mixed-",
+      "omniagent-cron-mixed-",
       (sessionKey) => {
         enqueueSystemEvent("HEARTBEAT_OK", { sessionKey });
         enqueueSystemEvent("Reminder: Check Base Scout results", { sessionKey });
@@ -174,7 +174,7 @@ describe("Ghost reminder bug (issue #13317)", () => {
   });
 
   it("uses CRON_EVENT_PROMPT for tagged cron events on interval wake", async () => {
-    await withTempDir("openclaw-cron-interval-", async (tmpDir) => {
+    await withTempDir("omniagent-cron-interval-", async (tmpDir) => {
       await fs.writeFile(path.join(tmpDir, "HEARTBEAT.md"), "- Check status\n", "utf-8");
       const { sendTelegram, getReplySpy } = createHeartbeatDeps("Relay this cron update now");
       const { cfg, sessionKey } = await createConfig(tmpDir);

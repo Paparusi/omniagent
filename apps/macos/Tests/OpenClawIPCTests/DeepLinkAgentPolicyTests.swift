@@ -1,6 +1,6 @@
-import OpenClawKit
+import OmniAgentKit
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite struct DeepLinkAgentPolicyTests {
     @Test func validateMessageForHandleRejectsTooLongWhenUnkeyed() {

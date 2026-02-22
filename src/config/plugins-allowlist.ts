@@ -1,6 +1,6 @@
-import type { OpenClawConfig } from "./config.js";
+import type { OmniAgentConfig } from "./config.js";
 
-export function ensurePluginAllowlisted(cfg: OpenClawConfig, pluginId: string): OpenClawConfig {
+export function ensurePluginAllowlisted(cfg: OmniAgentConfig, pluginId: string): OmniAgentConfig {
   const allow = cfg.plugins?.allow;
   if (!Array.isArray(allow) || allow.includes(pluginId)) {
     return cfg;

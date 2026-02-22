@@ -2,7 +2,7 @@ import fs from "node:fs/promises";
 import os from "node:os";
 import path from "node:path";
 import { describe, expect, it, vi } from "vitest";
-import { createOpenClawCodingTools } from "./pi-tools.js";
+import { createOmniAgentCodingTools } from "./pi-tools.js";
 import { createHostSandboxFsBridge } from "./test-helpers/host-sandbox-fs-bridge.js";
 import { createPiToolsSandboxContext } from "./test-helpers/pi-tools-sandbox-context.js";
 
@@ -26,15 +26,15 @@ function getTextContent(result?: { content?: Array<{ type: string; text?: string
 
 describe("workspace path resolution", () => {
   it("reads relative paths against workspaceDir even after cwd changes", async () => {
-    await withTempDir("openclaw-ws-", async (workspaceDir) => {
-      await withTempDir("openclaw-cwd-", async (otherDir) => {
+    await withTempDir("omniagent-ws-", async (workspaceDir) => {
+      await withTempDir("omniagent-cwd-", async (otherDir) => {
         const testFile = "read.txt";
         const contents = "workspace read ok";
         await fs.writeFile(path.join(workspaceDir, testFile), contents, "utf8");
 
         const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(otherDir);
         try {
-          const tools = createOpenClawCodingTools({ workspaceDir });
+          const tools = createOmniAgentCodingTools({ workspaceDir });
           const readTool = tools.find((tool) => tool.name === "read");
           expect(readTool).toBeDefined();
 
@@ -48,14 +48,14 @@ describe("workspace path resolution", () => {
   });
 
   it("writes relative paths against workspaceDir even after cwd changes", async () => {
-    await withTempDir("openclaw-ws-", async (workspaceDir) => {
-      await withTempDir("openclaw-cwd-", async (otherDir) => {
+    await withTempDir("omniagent-ws-", async (workspaceDir) => {
+      await withTempDir("omniagent-cwd-", async (otherDir) => {
         const testFile = "write.txt";
         const contents = "workspace write ok";
 
         const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(otherDir);
         try {
-          const tools = createOpenClawCodingTools({ workspaceDir });
+          const tools = createOmniAgentCodingTools({ workspaceDir });
           const writeTool = tools.find((tool) => tool.name === "write");
           expect(writeTool).toBeDefined();
 
@@ -74,25 +74,25 @@ describe("workspace path resolution", () => {
   });
 
   it("edits relative paths against workspaceDir even after cwd changes", async () => {
-    await withTempDir("openclaw-ws-", async (workspaceDir) => {
-      await withTempDir("openclaw-cwd-", async (otherDir) => {
+    await withTempDir("omniagent-ws-", async (workspaceDir) => {
+      await withTempDir("omniagent-cwd-", async (otherDir) => {
         const testFile = "edit.txt";
         await fs.writeFile(path.join(workspaceDir, testFile), "hello world", "utf8");
 
         const cwdSpy = vi.spyOn(process, "cwd").mockReturnValue(otherDir);
         try {
-          const tools = createOpenClawCodingTools({ workspaceDir });
+          const tools = createOmniAgentCodingTools({ workspaceDir });
           const editTool = tools.find((tool) => tool.name === "edit");
           expect(editTool).toBeDefined();
 
           await editTool?.execute("ws-edit", {
             path: testFile,
             oldText: "world",
-            newText: "openclaw",
+            newText: "omniagent",
           });
 
           const updated = await fs.readFile(path.join(workspaceDir, testFile), "utf8");
-          expect(updated).toBe("hello openclaw");
+          expect(updated).toBe("hello omniagent");
         } finally {
           cwdSpy.mockRestore();
         }
@@ -101,8 +101,8 @@ describe("workspace path resolution", () => {
   });
 
   it("defaults exec cwd to workspaceDir when workdir is omitted", async () => {
-    await withTempDir("openclaw-ws-", async (workspaceDir) => {
-      const tools = createOpenClawCodingTools({
+    await withTempDir("omniagent-ws-", async (workspaceDir) => {
+      const tools = createOmniAgentCodingTools({
         workspaceDir,
         exec: { host: "gateway", ask: "off", security: "full" },
       });
@@ -126,9 +126,9 @@ describe("workspace path resolution", () => {
   });
 
   it("lets exec workdir override the workspace default", async () => {
-    await withTempDir("openclaw-ws-", async (workspaceDir) => {
-      await withTempDir("openclaw-override-", async (overrideDir) => {
-        const tools = createOpenClawCodingTools({
+    await withTempDir("omniagent-ws-", async (workspaceDir) => {
+      await withTempDir("omniagent-override-", async (overrideDir) => {
+        const tools = createOmniAgentCodingTools({
           workspaceDir,
           exec: { host: "gateway", ask: "off", security: "full" },
         });
@@ -156,8 +156,8 @@ describe("workspace path resolution", () => {
 
 describe("sandboxed workspace paths", () => {
   it("uses sandbox workspace for relative read/write/edit", async () => {
-    await withTempDir("openclaw-sandbox-", async (sandboxDir) => {
-      await withTempDir("openclaw-workspace-", async (workspaceDir) => {
+    await withTempDir("omniagent-sandbox-", async (sandboxDir) => {
+      await withTempDir("omniagent-workspace-", async (workspaceDir) => {
         const sandbox = createPiToolsSandboxContext({
           workspaceDir: sandboxDir,
           agentWorkspaceDir: workspaceDir,
@@ -170,7 +170,7 @@ describe("sandboxed workspace paths", () => {
         await fs.writeFile(path.join(sandboxDir, testFile), "sandbox read", "utf8");
         await fs.writeFile(path.join(workspaceDir, testFile), "workspace read", "utf8");
 
-        const tools = createOpenClawCodingTools({ workspaceDir, sandbox });
+        const tools = createOmniAgentCodingTools({ workspaceDir, sandbox });
         const readTool = tools.find((tool) => tool.name === "read");
         const writeTool = tools.find((tool) => tool.name === "write");
         const editTool = tools.find((tool) => tool.name === "edit");

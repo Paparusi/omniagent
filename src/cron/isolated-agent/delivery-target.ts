@@ -1,6 +1,6 @@
 import type { ChannelId } from "../../channels/plugins/types.js";
 import { DEFAULT_CHAT_CHANNEL } from "../../channels/registry.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { OmniAgentConfig } from "../../config/config.js";
 import {
   loadSessionStore,
   resolveAgentMainSessionKey,
@@ -19,7 +19,7 @@ import { resolveWhatsAppAccount } from "../../web/accounts.js";
 import { normalizeWhatsAppTarget } from "../../whatsapp/normalize.js";
 
 export async function resolveDeliveryTarget(
-  cfg: OpenClawConfig,
+  cfg: OmniAgentConfig,
   agentId: string,
   jobPayload: {
     channel?: "last" | ChannelId;

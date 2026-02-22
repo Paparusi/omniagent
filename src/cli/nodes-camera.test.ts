@@ -22,7 +22,7 @@ async function withTempDir<T>(prefix: string, run: (dir: string) => Promise<T>):
 }
 
 async function withCameraTempDir<T>(run: (dir: string) => Promise<T>): Promise<T> {
-  return await withTempDir("openclaw-test-", run);
+  return await withTempDir("omniagent-test-", run);
 }
 
 describe("nodes camera helpers", () => {
@@ -80,7 +80,7 @@ describe("nodes camera helpers", () => {
       tmpDir: "/tmp",
       id: "id1",
     });
-    expect(p).toBe(path.join("/tmp", "openclaw-camera-snap-front-id1.jpg"));
+    expect(p).toBe(path.join("/tmp", "omniagent-camera-snap-front-id1.jpg"));
   });
 
   it("writes camera clip payload to temp path", async () => {
@@ -96,7 +96,7 @@ describe("nodes camera helpers", () => {
         tmpDir: dir,
         id: "clip1",
       });
-      expect(out).toBe(path.join(dir, "openclaw-camera-clip-front-clip1.mp4"));
+      expect(out).toBe(path.join(dir, "omniagent-camera-clip-front-clip1.mp4"));
       await expect(fs.readFile(out, "utf8")).resolves.toBe("hi");
     });
   });
@@ -115,7 +115,7 @@ describe("nodes camera helpers", () => {
         tmpDir: dir,
         id: "clip2",
       });
-      expect(out).toBe(path.join(dir, "openclaw-camera-clip-back-clip2.mp4"));
+      expect(out).toBe(path.join(dir, "omniagent-camera-clip-back-clip2.mp4"));
       await expect(fs.readFile(out, "utf8")).resolves.toBe("url-clip");
     });
   });
@@ -250,6 +250,6 @@ describe("nodes screen helpers", () => {
       tmpDir: "/tmp",
       id: "id1",
     });
-    expect(p).toBe(path.join("/tmp", "openclaw-screen-record-id1.mp4"));
+    expect(p).toBe(path.join("/tmp", "omniagent-screen-record-id1.mp4"));
   });
 });

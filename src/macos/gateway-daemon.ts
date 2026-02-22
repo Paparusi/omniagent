@@ -3,11 +3,11 @@ import process from "node:process";
 import type { GatewayLockHandle } from "../infra/gateway-lock.js";
 import { restartGatewayProcessWithFreshPid } from "../infra/process-respawn.js";
 
-declare const __OPENCLAW_VERSION__: string | undefined;
+declare const __OMNIAGENT_VERSION__: string | undefined;
 
 const BUNDLED_VERSION =
-  (typeof __OPENCLAW_VERSION__ === "string" && __OPENCLAW_VERSION__) ||
-  process.env.OPENCLAW_BUNDLED_VERSION ||
+  (typeof __OMNIAGENT_VERSION__ === "string" && __OMNIAGENT_VERSION__) ||
+  process.env.OMNIAGENT_BUNDLED_VERSION ||
   "0.0.0";
 
 function argValue(args: string[], flag: string): string | undefined {
@@ -29,7 +29,7 @@ type GatewayWsLogStyle = "auto" | "full" | "compact";
 
 async function main() {
   if (hasFlag(args, "--version") || hasFlag(args, "-v")) {
-    // Match `openclaw --version` behavior for Swift env/version checks.
+    // Match `omniagent --version` behavior for Swift env/version checks.
     // Keep output a single line.
     console.log(BUNDLED_VERSION);
     process.exit(0);
@@ -84,6 +84,7 @@ async function main() {
   const cfg = loadConfig();
   const portRaw =
     argValue(args, "--port") ??
+    process.env.OMNIAGENT_GATEWAY_PORT ??
     process.env.OPENCLAW_GATEWAY_PORT ??
     process.env.CLAWDBOT_GATEWAY_PORT ??
     (typeof cfg.gateway?.port === "number" ? String(cfg.gateway.port) : "") ??
@@ -96,6 +97,7 @@ async function main() {
 
   const bindRaw =
     argValue(args, "--bind") ??
+    process.env.OMNIAGENT_GATEWAY_BIND ??
     process.env.OPENCLAW_GATEWAY_BIND ??
     process.env.CLAWDBOT_GATEWAY_BIND ??
     cfg.gateway?.bind ??
@@ -115,7 +117,7 @@ async function main() {
 
   const token = argValue(args, "--token");
   if (token) {
-    process.env.OPENCLAW_GATEWAY_TOKEN = token;
+    process.env.OMNIAGENT_GATEWAY_TOKEN = token;
   }
 
   let server: Awaited<ReturnType<typeof startGatewayServer>> | null = null;
@@ -194,7 +196,7 @@ async function main() {
                 `gateway: full process restart failed (${respawn.detail ?? "unknown error"}); falling back to in-process restart`,
               );
             } else {
-              defaultRuntime.log("gateway: restart mode in-process restart (OPENCLAW_NO_RESPAWN)");
+              defaultRuntime.log("gateway: restart mode in-process restart (OMNIAGENT_NO_RESPAWN)");
             }
             shuttingDown = false;
             restartResolver?.();
@@ -272,7 +274,7 @@ async function main() {
 
 void main().catch((err) => {
   console.error(
-    "[openclaw] Gateway daemon failed:",
+    "[omniagent] Gateway daemon failed:",
     err instanceof Error ? (err.stack ?? err.message) : err,
   );
   process.exit(1);

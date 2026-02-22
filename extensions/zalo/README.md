@@ -1,17 +1,17 @@
-# @openclaw/zalo
+# @omniagent/zalo
 
-Zalo channel plugin for OpenClaw (Bot API).
+Zalo channel plugin for OmniAgent (Bot API).
 
 ## Install (local checkout)
 
 ```bash
-openclaw plugins install ./extensions/zalo
+omniagent plugins install ./extensions/zalo
 ```
 
 ## Install (npm)
 
 ```bash
-openclaw plugins install @openclaw/zalo
+omniagent plugins install @omniagent/zalo
 ```
 
 Onboarding: select Zalo and confirm the install prompt to fetch the plugin automatically.

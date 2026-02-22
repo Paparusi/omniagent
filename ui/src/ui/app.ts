@@ -85,7 +85,7 @@ import type { NostrProfileFormState } from "./views/channels.nostr-profile-form.
 
 declare global {
   interface Window {
-    __OPENCLAW_CONTROL_UI_BASE_PATH__?: string;
+    __OMNIAGENT_CONTROL_UI_BASE_PATH__?: string;
   }
 }
 
@@ -104,8 +104,8 @@ function resolveOnboardingMode(): boolean {
   return normalized === "1" || normalized === "true" || normalized === "yes" || normalized === "on";
 }
 
-@customElement("openclaw-app")
-export class OpenClawApp extends LitElement {
+@customElement("omniagent-app")
+export class OmniAgentApp extends LitElement {
   private i18nController = new I18nController(this);
   @state() settings: UiSettings = loadSettings();
   constructor() {

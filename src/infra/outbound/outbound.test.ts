@@ -5,7 +5,7 @@ import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
 import { telegramPlugin } from "../../../extensions/telegram/src/channel.js";
 import { whatsappPlugin } from "../../../extensions/whatsapp/src/channel.js";
 import type { ReplyPayload } from "../../auto-reply/types.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { OmniAgentConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import { createTestRegistry } from "../../test-utils/channel-plugins.js";
 import { typedCases } from "../../test-utils/typed-cases.js";
@@ -45,7 +45,7 @@ describe("delivery-queue", () => {
   let tmpDir: string;
 
   beforeEach(() => {
-    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-dq-test-"));
+    tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), "omniagent-dq-test-"));
   });
 
   afterEach(() => {
@@ -372,7 +372,7 @@ describe("delivery-queue", () => {
 });
 
 describe("DirectoryCache", () => {
-  const cfg = {} as OpenClawConfig;
+  const cfg = {} as OmniAgentConfig;
 
   afterEach(() => {
     vi.useRealTimers();
@@ -623,13 +623,13 @@ const slackConfig = {
       appToken: "xapp-test",
     },
   },
-} as OpenClawConfig;
+} as OmniAgentConfig;
 
 const discordConfig = {
   channels: {
     discord: {},
   },
-} as OpenClawConfig;
+} as OmniAgentConfig;
 
 describe("outbound policy", () => {
   it("allows cross-provider sends when enabled", () => {
@@ -638,7 +638,7 @@ describe("outbound policy", () => {
       tools: {
         message: { crossContext: { allowAcrossProviders: true } },
       },
-    } as OpenClawConfig;
+    } as OmniAgentConfig;
 
     expect(() =>
       enforceCrossContextPolicy({
@@ -674,10 +674,10 @@ describe("outbound policy", () => {
 });
 
 describe("resolveOutboundSessionRoute", () => {
-  const baseConfig = {} as OpenClawConfig;
+  const baseConfig = {} as OmniAgentConfig;
 
   it("resolves provider-specific session routes", async () => {
-    const perChannelPeerCfg = { session: { dmScope: "per-channel-peer" } } as OpenClawConfig;
+    const perChannelPeerCfg = { session: { dmScope: "per-channel-peer" } } as OmniAgentConfig;
     const identityLinksCfg = {
       session: {
         dmScope: "per-peer",
@@ -685,7 +685,7 @@ describe("resolveOutboundSessionRoute", () => {
           alice: ["discord:123"],
         },
       },
-    } as OpenClawConfig;
+    } as OmniAgentConfig;
     const slackMpimCfg = {
       channels: {
         slack: {
@@ -694,10 +694,10 @@ describe("resolveOutboundSessionRoute", () => {
           },
         },
       },
-    } as OpenClawConfig;
+    } as OmniAgentConfig;
     const cases: Array<{
       name: string;
-      cfg: OpenClawConfig;
+      cfg: OmniAgentConfig;
       channel: string;
       target: string;
       replyToId?: string;
@@ -952,7 +952,7 @@ describe("resolveOutboundTarget", () => {
       input: {
         channel: "whatsapp" as const,
         to: "",
-        cfg: { channels: { whatsapp: { allowFrom: ["+1555"] } } } as OpenClawConfig,
+        cfg: { channels: { whatsapp: { allowFrom: ["+1555"] } } } as OmniAgentConfig,
         mode: "explicit" as const,
       },
       expectedErrorIncludes: "WhatsApp",

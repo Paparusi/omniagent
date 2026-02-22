@@ -1,4 +1,4 @@
-import OpenClawProtocol
+import OmniAgentProtocol
 
-public typealias AnyCodable = OpenClawProtocol.AnyCodable
+public typealias AnyCodable = OmniAgentProtocol.AnyCodable
 

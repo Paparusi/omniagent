@@ -1,10 +1,10 @@
 {
-  "name": "@openclaw/llm-task",
+  "name": "@omniagent/llm-task",
   "version": "2026.2.22",
   "private": true,
-  "description": "OpenClaw JSON-only LLM task plugin",
+  "description": "OmniAgent JSON-only LLM task plugin",
   "type": "module",
-  "openclaw": {
+  "omniagent": {
     "extensions": [
       "./index.ts"
     ]

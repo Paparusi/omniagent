@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/bluebubbles",
+  "name": "@omniagent/bluebubbles",
   "version": "2026.2.22",
-  "description": "OpenClaw BlueBubbles channel plugin",
+  "description": "OmniAgent BlueBubbles channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "omniagent": "workspace:*"
   },
-  "openclaw": {
+  "omniagent": {
     "extensions": [
       "./index.ts"
     ],
@@ -28,7 +28,7 @@
       "order": 75
     },
     "install": {
-      "npmSpec": "@openclaw/bluebubbles",
+      "npmSpec": "@omniagent/bluebubbles",
       "localPath": "extensions/bluebubbles",
       "defaultChoice": "npm"
     }

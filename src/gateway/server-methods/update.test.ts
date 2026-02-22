@@ -32,8 +32,8 @@ vi.mock("../../config/sessions.js", () => ({
   },
 }));
 
-vi.mock("../../infra/openclaw-root.js", () => ({
-  resolveOpenClawPackageRoot: async () => "/tmp/openclaw",
+vi.mock("../../infra/omniagent-root.js", () => ({
+  resolveOmniAgentPackageRoot: async () => "/tmp/omniagent",
 }));
 
 vi.mock("../../infra/restart-sentinel.js", async (importOriginal) => {

@@ -1,4 +1,4 @@
-import OpenClawProtocol
+import OmniAgentProtocol
 
 /// Server-push messages from the gateway websocket.
 ///

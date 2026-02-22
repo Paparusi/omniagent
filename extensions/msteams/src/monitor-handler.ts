@@ -1,4 +1,4 @@
-import type { OpenClawConfig, RuntimeEnv } from "openclaw/plugin-sdk";
+import type { OmniAgentConfig, RuntimeEnv } from "omniagent/plugin-sdk";
 import type { MSTeamsConversationStore } from "./conversation-store.js";
 import { buildFileInfoCard, parseFileConsentInvoke, uploadToConsentUrl } from "./file-consent.js";
 import type { MSTeamsAdapter } from "./messenger.js";
@@ -23,7 +23,7 @@ export type MSTeamsActivityHandler = {
 };
 
 export type MSTeamsMessageHandlerDeps = {
-  cfg: OpenClawConfig;
+  cfg: OmniAgentConfig;
   runtime: RuntimeEnv;
   appId: string;
   adapter: MSTeamsAdapter;

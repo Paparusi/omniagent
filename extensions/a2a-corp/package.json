@@ -1,0 +1,48 @@
+{
+  "name": "@a2a/omniagent-plugin",
+  "version": "2.0.0",
+  "description": "A2A Corp plugin for OmniAgent — marketplace, vault, and payments for AI agents",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsup src/index.ts --format esm --dts --clean",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.0",
+    "agentforge-sdk": "file:../../../AI Agent Space/agent-marketplace/sdk",
+    "@passbox/sdk": "file:../../../passbox/packages/sdk"
+  },
+  "devDependencies": {
+    "omniagent": "file:../../",
+    "typescript": "^5.5.0",
+    "tsup": "^8.0.0",
+    "vitest": "^3.0.0"
+  },
+  "files": [
+    "dist",
+    "omniagent.plugin.json",
+    "skills",
+    "README.md"
+  ],
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Paparusi/a2a-corp"
+  },
+  "keywords": [
+    "omniagent",
+    "omniagent-plugin",
+    "a2a",
+    "agentforge",
+    "passbox",
+    "apay",
+    "ai-agents",
+    "marketplace",
+    "payments",
+    "vault"
+  ]
+}

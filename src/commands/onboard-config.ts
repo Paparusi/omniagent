@@ -1,9 +1,9 @@
-import type { OpenClawConfig } from "../config/config.js";
+import type { OmniAgentConfig } from "../config/config.js";
 
 export function applyOnboardingLocalWorkspaceConfig(
-  baseConfig: OpenClawConfig,
+  baseConfig: OmniAgentConfig,
   workspaceDir: string,
-): OpenClawConfig {
+): OmniAgentConfig {
   return {
     ...baseConfig,
     agents: {

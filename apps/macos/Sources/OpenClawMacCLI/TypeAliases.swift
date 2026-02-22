@@ -1,5 +1,5 @@
-import OpenClawKit
-import OpenClawProtocol
+import OmniAgentKit
+import OmniAgentProtocol
 
-typealias ProtoAnyCodable = OpenClawProtocol.AnyCodable
-typealias KitAnyCodable = OpenClawKit.AnyCodable
+typealias ProtoAnyCodable = OmniAgentProtocol.AnyCodable
+typealias KitAnyCodable = OmniAgentKit.AnyCodable

@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/signal",
+  "name": "@omniagent/signal",
   "version": "2026.2.22",
   "private": true,
-  "description": "OpenClaw Signal channel plugin",
+  "description": "OmniAgent Signal channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "omniagent": "workspace:*"
   },
-  "openclaw": {
+  "omniagent": {
     "extensions": [
       "./index.ts"
     ]

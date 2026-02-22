@@ -1,7 +1,7 @@
 import { beforeEach, describe, expect, it } from "vitest";
 import { telegramPlugin } from "../../../extensions/telegram/src/channel.js";
 import { whatsappPlugin } from "../../../extensions/whatsapp/src/channel.js";
-import type { OpenClawConfig } from "../../config/config.js";
+import type { OmniAgentConfig } from "../../config/config.js";
 import { setActivePluginRegistry } from "../../plugins/runtime.js";
 import { createTestRegistry } from "../../test-utils/channel-plugins.js";
 import { resolveOutboundTarget, resolveSessionDeliveryTarget } from "./targets.js";
@@ -17,7 +17,7 @@ describe("resolveOutboundTarget", () => {
   });
 
   it("rejects whatsapp with empty target even when allowFrom configured", () => {
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       channels: { whatsapp: { allowFrom: ["+1555"] } },
     };
     const res = resolveOutboundTarget({
@@ -110,7 +110,7 @@ describe("resolveOutboundTarget", () => {
 
   describe("defaultTo config fallback", () => {
     it("uses whatsapp defaultTo when no explicit target is provided", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: OmniAgentConfig = {
         channels: { whatsapp: { defaultTo: "+15551234567", allowFrom: ["*"] } },
       };
       const res = resolveOutboundTarget({
@@ -123,7 +123,7 @@ describe("resolveOutboundTarget", () => {
     });
 
     it("uses telegram defaultTo when no explicit target is provided", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: OmniAgentConfig = {
         channels: { telegram: { defaultTo: "123456789" } },
       };
       const res = resolveOutboundTarget({
@@ -136,7 +136,7 @@ describe("resolveOutboundTarget", () => {
     });
 
     it("explicit --reply-to overrides defaultTo", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: OmniAgentConfig = {
         channels: { whatsapp: { defaultTo: "+15551234567", allowFrom: ["*"] } },
       };
       const res = resolveOutboundTarget({
@@ -149,7 +149,7 @@ describe("resolveOutboundTarget", () => {
     });
 
     it("still errors when no defaultTo and no explicit target", () => {
-      const cfg: OpenClawConfig = {
+      const cfg: OmniAgentConfig = {
         channels: { whatsapp: { allowFrom: ["+1555"] } },
       };
       const res = resolveOutboundTarget({

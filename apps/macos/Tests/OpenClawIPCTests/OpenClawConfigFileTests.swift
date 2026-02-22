@@ -1,18 +1,18 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite(.serialized)
-struct OpenClawConfigFileTests {
+struct OmniAgentConfigFileTests {
     @Test
     func configPathRespectsEnvOverride() async {
         let override = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-config-\(UUID().uuidString)")
-            .appendingPathComponent("openclaw.json")
+            .appendingPathComponent("omniagent-config-\(UUID().uuidString)")
+            .appendingPathComponent("omniagent.json")
             .path
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
-            #expect(OpenClawConfigFile.url().path == override)
+        await TestIsolation.withEnvValues(["OMNIAGENT_CONFIG_PATH": override]) {
+            #expect(OmniAgentConfigFile.url().path == override)
         }
     }
 
@@ -20,22 +20,22 @@ struct OpenClawConfigFileTests {
     @Test
     func remoteGatewayPortParsesAndMatchesHost() async {
         let override = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-config-\(UUID().uuidString)")
-            .appendingPathComponent("openclaw.json")
+            .appendingPathComponent("omniagent-config-\(UUID().uuidString)")
+            .appendingPathComponent("omniagent.json")
             .path
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
-            OpenClawConfigFile.saveDict([
+        await TestIsolation.withEnvValues(["OMNIAGENT_CONFIG_PATH": override]) {
+            OmniAgentConfigFile.saveDict([
                 "gateway": [
                     "remote": [
                         "url": "ws://gateway.ts.net:19999",
                     ],
                 ],
             ])
-            #expect(OpenClawConfigFile.remoteGatewayPort() == 19999)
-            #expect(OpenClawConfigFile.remoteGatewayPort(matchingHost: "gateway.ts.net") == 19999)
-            #expect(OpenClawConfigFile.remoteGatewayPort(matchingHost: "gateway") == 19999)
-            #expect(OpenClawConfigFile.remoteGatewayPort(matchingHost: "other.ts.net") == nil)
+            #expect(OmniAgentConfigFile.remoteGatewayPort() == 19999)
+            #expect(OmniAgentConfigFile.remoteGatewayPort(matchingHost: "gateway.ts.net") == 19999)
+            #expect(OmniAgentConfigFile.remoteGatewayPort(matchingHost: "gateway") == 19999)
+            #expect(OmniAgentConfigFile.remoteGatewayPort(matchingHost: "other.ts.net") == nil)
         }
     }
 
@@ -43,20 +43,20 @@ struct OpenClawConfigFileTests {
     @Test
     func setRemoteGatewayUrlPreservesScheme() async {
         let override = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-config-\(UUID().uuidString)")
-            .appendingPathComponent("openclaw.json")
+            .appendingPathComponent("omniagent-config-\(UUID().uuidString)")
+            .appendingPathComponent("omniagent.json")
             .path
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
-            OpenClawConfigFile.saveDict([
+        await TestIsolation.withEnvValues(["OMNIAGENT_CONFIG_PATH": override]) {
+            OmniAgentConfigFile.saveDict([
                 "gateway": [
                     "remote": [
                         "url": "wss://old-host:111",
                     ],
                 ],
             ])
-            OpenClawConfigFile.setRemoteGatewayUrl(host: "new-host", port: 2222)
-            let root = OpenClawConfigFile.loadDict()
+            OmniAgentConfigFile.setRemoteGatewayUrl(host: "new-host", port: 2222)
+            let root = OmniAgentConfigFile.loadDict()
             let url = ((root["gateway"] as? [String: Any])?["remote"] as? [String: Any])?["url"] as? String
             #expect(url == "wss://new-host:2222")
         }
@@ -66,12 +66,12 @@ struct OpenClawConfigFileTests {
     @Test
     func clearRemoteGatewayUrlRemovesOnlyUrlField() async {
         let override = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-config-\(UUID().uuidString)")
-            .appendingPathComponent("openclaw.json")
+            .appendingPathComponent("omniagent-config-\(UUID().uuidString)")
+            .appendingPathComponent("omniagent.json")
             .path
 
-        await TestIsolation.withEnvValues(["OPENCLAW_CONFIG_PATH": override]) {
-            OpenClawConfigFile.saveDict([
+        await TestIsolation.withEnvValues(["OMNIAGENT_CONFIG_PATH": override]) {
+            OmniAgentConfigFile.saveDict([
                 "gateway": [
                     "remote": [
                         "url": "wss://old-host:111",
@@ -79,8 +79,8 @@ struct OpenClawConfigFileTests {
                     ],
                 ],
             ])
-            OpenClawConfigFile.clearRemoteGatewayUrl()
-            let root = OpenClawConfigFile.loadDict()
+            OmniAgentConfigFile.clearRemoteGatewayUrl()
+            let root = OmniAgentConfigFile.loadDict()
             let remote = ((root["gateway"] as? [String: Any])?["remote"] as? [String: Any]) ?? [:]
             #expect((remote["url"] as? String) == nil)
             #expect((remote["token"] as? String) == "tok")
@@ -90,15 +90,15 @@ struct OpenClawConfigFileTests {
     @Test
     func stateDirOverrideSetsConfigPath() async {
         let dir = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-state-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("omniagent-state-\(UUID().uuidString)", isDirectory: true)
             .path
 
         await TestIsolation.withEnvValues([
-            "OPENCLAW_CONFIG_PATH": nil,
-            "OPENCLAW_STATE_DIR": dir,
+            "OMNIAGENT_CONFIG_PATH": nil,
+            "OMNIAGENT_STATE_DIR": dir,
         ]) {
-            #expect(OpenClawConfigFile.stateDirURL().path == dir)
-            #expect(OpenClawConfigFile.url().path == "\(dir)/openclaw.json")
+            #expect(OmniAgentConfigFile.stateDirURL().path == dir)
+            #expect(OmniAgentConfigFile.url().path == "\(dir)/omniagent.json")
         }
     }
 
@@ -106,17 +106,17 @@ struct OpenClawConfigFileTests {
     @Test
     func saveDictAppendsConfigAuditLog() async throws {
         let stateDir = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-state-\(UUID().uuidString)", isDirectory: true)
-        let configPath = stateDir.appendingPathComponent("openclaw.json")
+            .appendingPathComponent("omniagent-state-\(UUID().uuidString)", isDirectory: true)
+        let configPath = stateDir.appendingPathComponent("omniagent.json")
         let auditPath = stateDir.appendingPathComponent("logs/config-audit.jsonl")
 
         defer { try? FileManager().removeItem(at: stateDir) }
 
         try await TestIsolation.withEnvValues([
-            "OPENCLAW_STATE_DIR": stateDir.path,
-            "OPENCLAW_CONFIG_PATH": configPath.path,
+            "OMNIAGENT_STATE_DIR": stateDir.path,
+            "OMNIAGENT_CONFIG_PATH": configPath.path,
         ]) {
-            OpenClawConfigFile.saveDict([
+            OmniAgentConfigFile.saveDict([
                 "gateway": ["mode": "local"],
             ])
 
@@ -134,7 +134,7 @@ struct OpenClawConfigFileTests {
                 return
             }
             let auditRoot = try JSONSerialization.jsonObject(with: Data(last.utf8)) as? [String: Any]
-            #expect(auditRoot?["source"] as? String == "macos-openclaw-config-file")
+            #expect(auditRoot?["source"] as? String == "macos-omniagent-config-file")
             #expect(auditRoot?["event"] as? String == "config.write")
             #expect(auditRoot?["result"] as? String == "success")
             #expect(auditRoot?["configPath"] as? String == configPath.path)

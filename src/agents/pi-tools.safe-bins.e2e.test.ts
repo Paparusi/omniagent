@@ -2,16 +2,16 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterAll, beforeAll, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { OmniAgentConfig } from "../config/config.js";
 import type { ExecApprovalsResolved } from "../infra/exec-approvals.js";
 import { captureEnv, withEnvAsync } from "../test-utils/env.js";
 
-const bundledPluginsDirSnapshot = captureEnv(["OPENCLAW_BUNDLED_PLUGINS_DIR"]);
+const bundledPluginsDirSnapshot = captureEnv(["OMNIAGENT_BUNDLED_PLUGINS_DIR"]);
 
 beforeAll(() => {
-  process.env.OPENCLAW_BUNDLED_PLUGINS_DIR = path.join(
+  process.env.OMNIAGENT_BUNDLED_PLUGINS_DIR = path.join(
     os.tmpdir(),
-    "openclaw-test-no-bundled-extensions",
+    "omniagent-test-no-bundled-extensions",
   );
 });
 
@@ -88,13 +88,13 @@ async function createSafeBinsExecTool(params: {
   safeBins: string[];
   files?: Array<{ name: string; contents: string }>;
 }): Promise<{ tmpDir: string; execTool: ExecTool }> {
-  const { createOpenClawCodingTools } = await import("./pi-tools.js");
+  const { createOmniAgentCodingTools } = await import("./pi-tools.js");
   const tmpDir = fs.mkdtempSync(path.join(os.tmpdir(), params.tmpPrefix));
   for (const file of params.files ?? []) {
     fs.writeFileSync(path.join(tmpDir, file.name), file.contents, "utf8");
   }
 
-  const cfg: OpenClawConfig = {
+  const cfg: OmniAgentConfig = {
     tools: {
       exec: {
         host: "gateway",
@@ -105,7 +105,7 @@ async function createSafeBinsExecTool(params: {
     },
   };
 
-  const tools = createOpenClawCodingTools({
+  const tools = createOmniAgentCodingTools({
     config: cfg,
     sessionKey: "agent:main:main",
     workspaceDir: tmpDir,
@@ -133,17 +133,17 @@ async function withSafeBinsExecTool(
   }
 }
 
-describe("createOpenClawCodingTools safeBins", () => {
+describe("createOmniAgentCodingTools safeBins", () => {
   it("threads tools.exec.safeBins into exec allowlist checks", async () => {
     await withSafeBinsExecTool(
       {
-        tmpPrefix: "openclaw-safe-bins-",
+        tmpPrefix: "omniagent-safe-bins-",
         safeBins: ["echo"],
       },
       async ({ tmpDir, execTool }) => {
         const marker = `safe-bins-${Date.now()}`;
         const result = await withEnvAsync(
-          { OPENCLAW_SHELL_ENV_TIMEOUT_MS: "1000" },
+          { OMNIAGENT_SHELL_ENV_TIMEOUT_MS: "1000" },
           async () =>
             await execTool.execute("call1", {
               command: `echo ${marker}`,
@@ -162,7 +162,7 @@ describe("createOpenClawCodingTools safeBins", () => {
   it("does not allow env var expansion to smuggle file args via safeBins", async () => {
     await withSafeBinsExecTool(
       {
-        tmpPrefix: "openclaw-safe-bins-expand-",
+        tmpPrefix: "omniagent-safe-bins-expand-",
         safeBins: ["head", "wc"],
         files: [{ name: "secret.txt", contents: "TOP_SECRET\n" }],
       },
@@ -181,7 +181,7 @@ describe("createOpenClawCodingTools safeBins", () => {
   it("does not leak file existence from sort output flags", async () => {
     await withSafeBinsExecTool(
       {
-        tmpPrefix: "openclaw-safe-bins-oracle-",
+        tmpPrefix: "omniagent-safe-bins-oracle-",
         safeBins: ["sort"],
         files: [{ name: "existing.txt", contents: "x\n" }],
       },
@@ -207,7 +207,7 @@ describe("createOpenClawCodingTools safeBins", () => {
   it("blocks sort output flags from writing files via safeBins", async () => {
     await withSafeBinsExecTool(
       {
-        tmpPrefix: "openclaw-safe-bins-sort-",
+        tmpPrefix: "omniagent-safe-bins-sort-",
         safeBins: ["sort"],
       },
       async ({ tmpDir, execTool }) => {
@@ -232,7 +232,7 @@ describe("createOpenClawCodingTools safeBins", () => {
   it("blocks sort --compress-program from bypassing safeBins", async () => {
     await withSafeBinsExecTool(
       {
-        tmpPrefix: "openclaw-safe-bins-sort-compress-",
+        tmpPrefix: "omniagent-safe-bins-sort-compress-",
         safeBins: ["sort"],
       },
       async ({ tmpDir, execTool }) => {
@@ -249,7 +249,7 @@ describe("createOpenClawCodingTools safeBins", () => {
   it("blocks shell redirection metacharacters in safeBins mode", async () => {
     await withSafeBinsExecTool(
       {
-        tmpPrefix: "openclaw-safe-bins-redirect-",
+        tmpPrefix: "omniagent-safe-bins-redirect-",
         safeBins: ["head"],
         files: [{ name: "source.txt", contents: "line1\nline2\n" }],
       },
@@ -268,7 +268,7 @@ describe("createOpenClawCodingTools safeBins", () => {
   it("blocks grep recursive flags from reading cwd via safeBins", async () => {
     await withSafeBinsExecTool(
       {
-        tmpPrefix: "openclaw-safe-bins-grep-",
+        tmpPrefix: "omniagent-safe-bins-grep-",
         safeBins: ["grep"],
         files: [{ name: "secret.txt", contents: "SAFE_BINS_RECURSIVE_SHOULD_NOT_LEAK\n" }],
       },

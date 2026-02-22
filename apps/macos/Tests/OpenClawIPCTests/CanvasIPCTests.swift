@@ -1,4 +1,4 @@
-import OpenClawIPC
+import OmniAgentIPC
 import Foundation
 import Testing
 

@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { OmniAgentConfig } from "../config/config.js";
 import { resolveCliBackendConfig } from "./cli-backends.js";
 
 describe("resolveCliBackendConfig reliability merge", () => {
@@ -21,7 +21,7 @@ describe("resolveCliBackendConfig reliability merge", () => {
           },
         },
       },
-    } satisfies OpenClawConfig;
+    } satisfies OmniAgentConfig;
 
     const resolved = resolveCliBackendConfig("codex-cli", cfg);
 

@@ -1,8 +1,8 @@
-import OpenClawKit
+import OmniAgentKit
 import Foundation
 import Testing
-@testable import OpenClaw
-@testable import OpenClawIPC
+@testable import OmniAgent
+@testable import OmniAgentIPC
 
 private final class FakeWebSocketTask: WebSocketTasking, @unchecked Sendable {
     var state: URLSessionTask.State = .running

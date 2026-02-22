@@ -1,6 +1,6 @@
-# @openclaw/voice-call
+# @omniagent/voice-call
 
-Official Voice Call plugin for **OpenClaw**.
+Official Voice Call plugin for **OmniAgent**.
 
 Providers:
 
@@ -9,15 +9,15 @@ Providers:
 - **Plivo** (Voice API + XML transfer + GetInput speech)
 - **Mock** (dev/no network)
 
-Docs: `https://docs.openclaw.ai/plugins/voice-call`
-Plugin system: `https://docs.openclaw.ai/plugin`
+Docs: `https://docs.omniagent.ai/plugins/voice-call`
+Plugin system: `https://docs.omniagent.ai/plugin`
 
 ## Install (local dev)
 
-### Option A: install via OpenClaw (recommended)
+### Option A: install via OmniAgent (recommended)
 
 ```bash
-openclaw plugins install @openclaw/voice-call
+omniagent plugins install @omniagent/voice-call
 ```
 
 Restart the Gateway afterwards.
@@ -25,9 +25,9 @@ Restart the Gateway afterwards.
 ### Option B: copy into your global extensions folder (dev)
 
 ```bash
-mkdir -p ~/.openclaw/extensions
-cp -R extensions/voice-call ~/.openclaw/extensions/voice-call
-cd ~/.openclaw/extensions/voice-call && pnpm install
+mkdir -p ~/.omniagent/extensions
+cp -R extensions/voice-call ~/.omniagent/extensions/voice-call
+cd ~/.omniagent/extensions/voice-call && pnpm install
 ```
 
 ## Config
@@ -132,13 +132,13 @@ Notes:
 ## CLI
 
 ```bash
-openclaw voicecall call --to "+15555550123" --message "Hello from OpenClaw"
-openclaw voicecall continue --call-id <id> --message "Any questions?"
-openclaw voicecall speak --call-id <id> --message "One moment"
-openclaw voicecall end --call-id <id>
-openclaw voicecall status --call-id <id>
-openclaw voicecall tail
-openclaw voicecall expose --mode funnel
+omniagent voicecall call --to "+15555550123" --message "Hello from OmniAgent"
+omniagent voicecall continue --call-id <id> --message "Any questions?"
+omniagent voicecall speak --call-id <id> --message "One moment"
+omniagent voicecall end --call-id <id>
+omniagent voicecall status --call-id <id>
+omniagent voicecall tail
+omniagent voicecall expose --mode funnel
 ```
 
 ## Tool

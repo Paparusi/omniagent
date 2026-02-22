@@ -84,8 +84,8 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
       throw new Error("temp home not initialized");
     }
     const stateDir = await fs.mkdtemp(path.join(tempHome, prefix));
-    process.env.OPENCLAW_STATE_DIR = stateDir;
-    delete process.env.OPENCLAW_CONFIG_PATH;
+    process.env.OMNIAGENT_STATE_DIR = stateDir;
+    delete process.env.OMNIAGENT_CONFIG_PATH;
     return stateDir;
   };
   const withStateDir = async (
@@ -102,25 +102,25 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
   beforeAll(async () => {
     envSnapshot = captureEnv([
       "HOME",
-      "OPENCLAW_STATE_DIR",
-      "OPENCLAW_CONFIG_PATH",
-      "OPENCLAW_SKIP_CHANNELS",
-      "OPENCLAW_SKIP_GMAIL_WATCHER",
-      "OPENCLAW_SKIP_CRON",
-      "OPENCLAW_SKIP_CANVAS_HOST",
-      "OPENCLAW_SKIP_BROWSER_CONTROL_SERVER",
-      "OPENCLAW_GATEWAY_TOKEN",
-      "OPENCLAW_GATEWAY_PASSWORD",
+      "OMNIAGENT_STATE_DIR",
+      "OMNIAGENT_CONFIG_PATH",
+      "OMNIAGENT_SKIP_CHANNELS",
+      "OMNIAGENT_SKIP_GMAIL_WATCHER",
+      "OMNIAGENT_SKIP_CRON",
+      "OMNIAGENT_SKIP_CANVAS_HOST",
+      "OMNIAGENT_SKIP_BROWSER_CONTROL_SERVER",
+      "OMNIAGENT_GATEWAY_TOKEN",
+      "OMNIAGENT_GATEWAY_PASSWORD",
     ]);
-    process.env.OPENCLAW_SKIP_CHANNELS = "1";
-    process.env.OPENCLAW_SKIP_GMAIL_WATCHER = "1";
-    process.env.OPENCLAW_SKIP_CRON = "1";
-    process.env.OPENCLAW_SKIP_CANVAS_HOST = "1";
-    process.env.OPENCLAW_SKIP_BROWSER_CONTROL_SERVER = "1";
-    delete process.env.OPENCLAW_GATEWAY_TOKEN;
-    delete process.env.OPENCLAW_GATEWAY_PASSWORD;
+    process.env.OMNIAGENT_SKIP_CHANNELS = "1";
+    process.env.OMNIAGENT_SKIP_GMAIL_WATCHER = "1";
+    process.env.OMNIAGENT_SKIP_CRON = "1";
+    process.env.OMNIAGENT_SKIP_CANVAS_HOST = "1";
+    process.env.OMNIAGENT_SKIP_BROWSER_CONTROL_SERVER = "1";
+    delete process.env.OMNIAGENT_GATEWAY_TOKEN;
+    delete process.env.OMNIAGENT_GATEWAY_PASSWORD;
 
-    tempHome = await makeTempWorkspace("openclaw-onboard-");
+    tempHome = await makeTempWorkspace("omniagent-onboard-");
     process.env.HOME = tempHome;
   });
 
@@ -134,7 +134,7 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
   it("writes gateway token auth into config and gateway enforces it", async () => {
     await withStateDir("state-noninteractive-", async (stateDir) => {
       const token = "tok_test_123";
-      const workspace = path.join(stateDir, "openclaw");
+      const workspace = path.join(stateDir, "omniagent");
 
       await runNonInteractiveOnboarding(
         {
@@ -212,11 +212,11 @@ describe("onboard (non-interactive): gateway and remote auth", () => {
       return;
     }
     await withStateDir("state-lan-", async (stateDir) => {
-      process.env.OPENCLAW_STATE_DIR = stateDir;
-      process.env.OPENCLAW_CONFIG_PATH = path.join(stateDir, "openclaw.json");
+      process.env.OMNIAGENT_STATE_DIR = stateDir;
+      process.env.OMNIAGENT_CONFIG_PATH = path.join(stateDir, "omniagent.json");
 
       const port = await getFreeGatewayPort();
-      const workspace = path.join(stateDir, "openclaw");
+      const workspace = path.join(stateDir, "omniagent");
 
       await runNonInteractiveOnboarding(
         {

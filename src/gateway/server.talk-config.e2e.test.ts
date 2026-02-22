@@ -13,7 +13,7 @@ async function createFreshOperatorDevice(scopes: string[]) {
     await import("../infra/device-identity.js");
 
   const identity = loadOrCreateDeviceIdentity(
-    join(tmpdir(), `openclaw-talk-config-${randomUUID()}.json`),
+    join(tmpdir(), `omniagent-talk-config-${randomUUID()}.json`),
   );
   const signedAtMs = Date.now();
   const payload = buildDeviceAuthPayload({
@@ -63,7 +63,7 @@ describe("gateway talk.config", () => {
       );
       expect(res.ok).toBe(true);
       expect(res.payload?.config?.talk?.voiceId).toBe("voice-123");
-      expect(res.payload?.config?.talk?.apiKey).toBe("__OPENCLAW_REDACTED__");
+      expect(res.payload?.config?.talk?.apiKey).toBe("__OMNIAGENT_REDACTED__");
     });
   });
 

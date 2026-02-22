@@ -12,7 +12,7 @@ describe("handleControlUiHttpRequest", () => {
     indexHtml?: string;
     fn: (tmp: string) => Promise<T>;
   }) {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ui-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "omniagent-ui-"));
     try {
       await fs.writeFile(path.join(tmp, "index.html"), params.indexHtml ?? "<html></html>\n");
       return await params.fn(tmp);
@@ -105,10 +105,10 @@ describe("handleControlUiHttpRequest", () => {
       fn: async (tmp) => {
         const { res, end } = makeMockHttpResponse();
         const handled = handleControlUiHttpRequest(
-          { url: `/openclaw${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`, method: "GET" } as IncomingMessage,
+          { url: `/omniagent${CONTROL_UI_BOOTSTRAP_CONFIG_PATH}`, method: "GET" } as IncomingMessage,
           res,
           {
-            basePath: "/openclaw",
+            basePath: "/omniagent",
             root: { kind: "resolved", path: tmp },
             config: {
               agents: { defaults: { workspace: tmp } },
@@ -118,9 +118,9 @@ describe("handleControlUiHttpRequest", () => {
         );
         expect(handled).toBe(true);
         const parsed = parseBootstrapPayload(end);
-        expect(parsed.basePath).toBe("/openclaw");
+        expect(parsed.basePath).toBe("/omniagent");
         expect(parsed.assistantName).toBe("Ops");
-        expect(parsed.assistantAvatar).toBe("/openclaw/avatar/main");
+        expect(parsed.assistantAvatar).toBe("/omniagent/avatar/main");
         expect(parsed.assistantAgentId).toBe("main");
       },
     });
@@ -130,7 +130,7 @@ describe("handleControlUiHttpRequest", () => {
     await withControlUiRoot({
       fn: async (tmp) => {
         const assetsDir = path.join(tmp, "assets");
-        const outsideDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ui-outside-"));
+        const outsideDir = await fs.mkdtemp(path.join(os.tmpdir(), "omniagent-ui-outside-"));
         try {
           const outsideFile = path.join(outsideDir, "secret.txt");
           await fs.mkdir(assetsDir, { recursive: true });
@@ -206,7 +206,7 @@ describe("handleControlUiHttpRequest", () => {
   it("rejects symlinked SPA fallback index.html outside control-ui root", async () => {
     await withControlUiRoot({
       fn: async (tmp) => {
-        const outsideDir = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ui-index-outside-"));
+        const outsideDir = await fs.mkdtemp(path.join(os.tmpdir(), "omniagent-ui-index-outside-"));
         try {
           const outsideIndex = path.join(outsideDir, "index.html");
           await fs.writeFile(outsideIndex, "<html>outside</html>\n");
@@ -233,7 +233,7 @@ describe("handleControlUiHttpRequest", () => {
   });
 
   it("rejects absolute-path escape attempts under basePath routes", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ui-root-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "omniagent-ui-root-"));
     try {
       const root = path.join(tmp, "ui");
       const sibling = path.join(tmp, "ui-secrets");
@@ -248,10 +248,10 @@ describe("handleControlUiHttpRequest", () => {
       const { res, end } = makeMockHttpResponse();
 
       const handled = handleControlUiHttpRequest(
-        { url: `/openclaw/${absolutePathUrl}`, method: "GET" } as IncomingMessage,
+        { url: `/omniagent/${absolutePathUrl}`, method: "GET" } as IncomingMessage,
         res,
         {
-          basePath: "/openclaw",
+          basePath: "/omniagent",
           root: { kind: "resolved", path: root },
         },
       );
@@ -265,7 +265,7 @@ describe("handleControlUiHttpRequest", () => {
   });
 
   it("rejects symlink escape attempts under basePath routes", async () => {
-    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "openclaw-ui-root-"));
+    const tmp = await fs.mkdtemp(path.join(os.tmpdir(), "omniagent-ui-root-"));
     try {
       const root = path.join(tmp, "ui");
       const sibling = path.join(tmp, "outside");
@@ -287,10 +287,10 @@ describe("handleControlUiHttpRequest", () => {
 
       const { res, end } = makeMockHttpResponse();
       const handled = handleControlUiHttpRequest(
-        { url: "/openclaw/assets/leak.txt", method: "GET" } as IncomingMessage,
+        { url: "/omniagent/assets/leak.txt", method: "GET" } as IncomingMessage,
         res,
         {
-          basePath: "/openclaw",
+          basePath: "/omniagent",
           root: { kind: "resolved", path: root },
         },
       );

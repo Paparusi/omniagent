@@ -1,15 +1,15 @@
 import AppKit
-import OpenClawIPC
+import OmniAgentIPC
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite(.serialized)
 @MainActor
 struct CanvasWindowSmokeTests {
     @Test func panelControllerShowsAndHides() async throws {
         let root = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-canvas-test-\(UUID().uuidString)")
+            .appendingPathComponent("omniagent-canvas-test-\(UUID().uuidString)")
         try FileManager().createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager().removeItem(at: root) }
 
@@ -32,7 +32,7 @@ struct CanvasWindowSmokeTests {
 
     @Test func windowControllerShowsAndCloses() async throws {
         let root = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-canvas-test-\(UUID().uuidString)")
+            .appendingPathComponent("omniagent-canvas-test-\(UUID().uuidString)")
         try FileManager().createDirectory(at: root, withIntermediateDirectories: true)
         defer { try? FileManager().removeItem(at: root) }
 

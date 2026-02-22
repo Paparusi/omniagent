@@ -1,4 +1,4 @@
-import OpenClawProtocol
+import OmniAgentProtocol
 import Foundation
 import OSLog
 
@@ -121,14 +121,14 @@ public enum GatewayAuthSource: String, Sendable {
 }
 
 // Avoid ambiguity with the app's own AnyCodable type.
-private typealias ProtoAnyCodable = OpenClawProtocol.AnyCodable
+private typealias ProtoAnyCodable = OmniAgentProtocol.AnyCodable
 
 private enum ConnectChallengeError: Error {
     case timeout
 }
 
 public actor GatewayChannelActor {
-    private let logger = Logger(subsystem: "ai.openclaw", category: "gateway")
+    private let logger = Logger(subsystem: "ai.omniagent", category: "gateway")
     private var task: WebSocketTaskBox?
     private var pending: [String: CheckedContinuation<GatewayFrame, Error>] = [:]
     private var connected = false
@@ -322,7 +322,7 @@ public actor GatewayChannelActor {
             caps: [],
             commands: [],
             permissions: [:],
-            clientId: "openclaw-macos",
+            clientId: "omniagent-macos",
             clientMode: "ui",
             clientDisplayName: InstanceIdentity.displayName)
         let clientDisplayName = options.clientDisplayName ?? InstanceIdentity.displayName

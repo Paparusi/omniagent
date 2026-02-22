@@ -1,9 +1,9 @@
 import AppKit
-import OpenClawProtocol
+import OmniAgentProtocol
 import SwiftUI
 import Testing
 
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite(.serialized)
 @MainActor

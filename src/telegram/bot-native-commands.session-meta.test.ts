@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { OmniAgentConfig } from "../config/config.js";
 import type { TelegramAccountConfig } from "../config/types.js";
 import type { RuntimeEnv } from "../runtime.js";
 import { registerTelegramNativeCommands } from "./bot-native-commands.js";
@@ -43,7 +43,7 @@ vi.mock("./bot/delivery.js", () => ({
   deliverReplies: vi.fn(async () => ({ delivered: true })),
 }));
 
-const buildParams = (cfg: OpenClawConfig, accountId = "default") => ({
+const buildParams = (cfg: OmniAgentConfig, accountId = "default") => ({
   bot: {
     api: {
       setMyCommands: vi.fn().mockResolvedValue(undefined),
@@ -83,10 +83,10 @@ function createDeferred<T>() {
 describe("registerTelegramNativeCommands — session metadata", () => {
   it("calls recordSessionMetaFromInbound after a native slash command", async () => {
     sessionMocks.recordSessionMetaFromInbound.mockReset().mockResolvedValue(undefined);
-    sessionMocks.resolveStorePath.mockReset().mockReturnValue("/tmp/openclaw-sessions.json");
+    sessionMocks.resolveStorePath.mockReset().mockReturnValue("/tmp/omniagent-sessions.json");
 
     const commandHandlers = new Map<string, (ctx: unknown) => Promise<void>>();
-    const cfg: OpenClawConfig = {};
+    const cfg: OmniAgentConfig = {};
 
     registerTelegramNativeCommands({
       ...buildParams(cfg),
@@ -127,11 +127,11 @@ describe("registerTelegramNativeCommands — session metadata", () => {
   it("awaits session metadata persistence before dispatch", async () => {
     const deferred = createDeferred<void>();
     sessionMocks.recordSessionMetaFromInbound.mockReset().mockReturnValue(deferred.promise);
-    sessionMocks.resolveStorePath.mockReset().mockReturnValue("/tmp/openclaw-sessions.json");
+    sessionMocks.resolveStorePath.mockReset().mockReturnValue("/tmp/omniagent-sessions.json");
     replyMocks.dispatchReplyWithBufferedBlockDispatcher.mockReset().mockResolvedValue(undefined);
 
     const commandHandlers = new Map<string, (ctx: unknown) => Promise<void>>();
-    const cfg: OpenClawConfig = {};
+    const cfg: OmniAgentConfig = {};
 
     registerTelegramNativeCommands({
       ...buildParams(cfg),

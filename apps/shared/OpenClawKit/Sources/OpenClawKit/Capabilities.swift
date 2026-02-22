@@ -1,6 +1,6 @@
 import Foundation
 
-public enum OpenClawCapability: String, Codable, Sendable {
+public enum OmniAgentCapability: String, Codable, Sendable {
     case canvas
     case camera
     case screen

@@ -4,7 +4,7 @@ import "./test-helpers/fast-core-tools.js";
 import {
   getCallGatewayMock,
   resetSessionsSpawnConfigOverride,
-} from "./openclaw-tools.subagents.sessions-spawn.test-harness.js";
+} from "./omniagent-tools.subagents.sessions-spawn.test-harness.js";
 import { resetSubagentRegistryForTests } from "./subagent-registry.js";
 
 vi.mock("./pi-embedded.js", () => ({
@@ -16,13 +16,13 @@ vi.mock("./pi-embedded.js", () => ({
 
 const callGatewayMock = getCallGatewayMock();
 
-type CreateOpenClawTools = (typeof import("./openclaw-tools.js"))["createOpenClawTools"];
-type CreateOpenClawToolsOpts = Parameters<CreateOpenClawTools>[0];
+type CreateOmniAgentTools = (typeof import("./omniagent-tools.js"))["createOmniAgentTools"];
+type CreateOmniAgentToolsOpts = Parameters<CreateOmniAgentTools>[0];
 
-async function getSessionsSpawnTool(opts: CreateOpenClawToolsOpts) {
+async function getSessionsSpawnTool(opts: CreateOmniAgentToolsOpts) {
   // Dynamic import: ensure harness mocks are installed before tool modules load.
-  const { createOpenClawTools } = await import("./openclaw-tools.js");
-  const tool = createOpenClawTools(opts).find((candidate) => candidate.name === "sessions_spawn");
+  const { createOmniAgentTools } = await import("./omniagent-tools.js");
+  const tool = createOmniAgentTools(opts).find((candidate) => candidate.name === "sessions_spawn");
   if (!tool) {
     throw new Error("missing sessions_spawn tool");
   }
@@ -133,7 +133,7 @@ const waitFor = async (predicate: () => boolean, timeoutMs = 2000) => {
   );
 };
 
-describe("openclaw-tools: subagents (sessions_spawn lifecycle)", () => {
+describe("omniagent-tools: subagents (sessions_spawn lifecycle)", () => {
   beforeEach(() => {
     resetSessionsSpawnConfigOverride();
   });

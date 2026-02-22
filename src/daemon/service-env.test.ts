@@ -272,14 +272,14 @@ describe("buildServiceEnvironment", () => {
     } else {
       expect(env.PATH).toContain("/usr/bin");
     }
-    expect(env.OPENCLAW_GATEWAY_PORT).toBe("18789");
-    expect(env.OPENCLAW_GATEWAY_TOKEN).toBe("secret");
-    expect(env.OPENCLAW_SERVICE_MARKER).toBe("openclaw");
-    expect(env.OPENCLAW_SERVICE_KIND).toBe("gateway");
-    expect(typeof env.OPENCLAW_SERVICE_VERSION).toBe("string");
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("openclaw-gateway.service");
+    expect(env.OMNIAGENT_GATEWAY_PORT).toBe("18789");
+    expect(env.OMNIAGENT_GATEWAY_TOKEN).toBe("secret");
+    expect(env.OMNIAGENT_SERVICE_MARKER).toBe("omniagent");
+    expect(env.OMNIAGENT_SERVICE_KIND).toBe("gateway");
+    expect(typeof env.OMNIAGENT_SERVICE_VERSION).toBe("string");
+    expect(env.OMNIAGENT_SYSTEMD_UNIT).toBe("omniagent-gateway.service");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.openclaw.gateway");
+      expect(env.OMNIAGENT_LAUNCHD_LABEL).toBe("ai.omniagent.gateway");
     }
   });
 
@@ -301,12 +301,12 @@ describe("buildServiceEnvironment", () => {
 
   it("uses profile-specific unit and label", () => {
     const env = buildServiceEnvironment({
-      env: { HOME: "/home/user", OPENCLAW_PROFILE: "work" },
+      env: { HOME: "/home/user", OMNIAGENT_PROFILE: "work" },
       port: 18789,
     });
-    expect(env.OPENCLAW_SYSTEMD_UNIT).toBe("openclaw-gateway-work.service");
+    expect(env.OMNIAGENT_SYSTEMD_UNIT).toBe("omniagent-gateway-work.service");
     if (process.platform === "darwin") {
-      expect(env.OPENCLAW_LAUNCHD_LABEL).toBe("ai.openclaw.work");
+      expect(env.OMNIAGENT_LAUNCHD_LABEL).toBe("ai.omniagent.work");
     }
   });
 });
@@ -337,31 +337,31 @@ describe("buildNodeServiceEnvironment", () => {
 describe("resolveGatewayStateDir", () => {
   it("uses the default state dir when no overrides are set", () => {
     const env = { HOME: "/Users/test" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".openclaw"));
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".omniagent"));
   });
 
   it("appends the profile suffix when set", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_PROFILE: "rescue" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".openclaw-rescue"));
+    const env = { HOME: "/Users/test", OMNIAGENT_PROFILE: "rescue" };
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".omniagent-rescue"));
   });
 
   it("treats default profiles as the base state dir", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_PROFILE: "Default" };
-    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".openclaw"));
+    const env = { HOME: "/Users/test", OMNIAGENT_PROFILE: "Default" };
+    expect(resolveGatewayStateDir(env)).toBe(path.join("/Users/test", ".omniagent"));
   });
 
-  it("uses OPENCLAW_STATE_DIR when provided", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_STATE_DIR: "/var/lib/openclaw" };
-    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/var/lib/openclaw"));
+  it("uses OMNIAGENT_STATE_DIR when provided", () => {
+    const env = { HOME: "/Users/test", OMNIAGENT_STATE_DIR: "/var/lib/omniagent" };
+    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/var/lib/omniagent"));
   });
 
-  it("expands ~ in OPENCLAW_STATE_DIR", () => {
-    const env = { HOME: "/Users/test", OPENCLAW_STATE_DIR: "~/openclaw-state" };
-    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/Users/test/openclaw-state"));
+  it("expands ~ in OMNIAGENT_STATE_DIR", () => {
+    const env = { HOME: "/Users/test", OMNIAGENT_STATE_DIR: "~/omniagent-state" };
+    expect(resolveGatewayStateDir(env)).toBe(path.resolve("/Users/test/omniagent-state"));
   });
 
   it("preserves Windows absolute paths without HOME", () => {
-    const env = { OPENCLAW_STATE_DIR: "C:\\State\\openclaw" };
-    expect(resolveGatewayStateDir(env)).toBe("C:\\State\\openclaw");
+    const env = { OMNIAGENT_STATE_DIR: "C:\\State\\omniagent" };
+    expect(resolveGatewayStateDir(env)).toBe("C:\\State\\omniagent");
   });
 });

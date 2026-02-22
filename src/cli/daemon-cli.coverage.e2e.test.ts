@@ -97,15 +97,15 @@ describe("daemon-cli coverage", () => {
 
   beforeEach(() => {
     envSnapshot = captureEnv([
-      "OPENCLAW_STATE_DIR",
-      "OPENCLAW_CONFIG_PATH",
-      "OPENCLAW_GATEWAY_PORT",
-      "OPENCLAW_PROFILE",
+      "OMNIAGENT_STATE_DIR",
+      "OMNIAGENT_CONFIG_PATH",
+      "OMNIAGENT_GATEWAY_PORT",
+      "OMNIAGENT_PROFILE",
     ]);
-    process.env.OPENCLAW_STATE_DIR = "/tmp/openclaw-cli-state";
-    process.env.OPENCLAW_CONFIG_PATH = "/tmp/openclaw-cli-state/openclaw.json";
-    delete process.env.OPENCLAW_GATEWAY_PORT;
-    delete process.env.OPENCLAW_PROFILE;
+    process.env.OMNIAGENT_STATE_DIR = "/tmp/omniagent-cli-state";
+    process.env.OMNIAGENT_CONFIG_PATH = "/tmp/omniagent-cli-state/omniagent.json";
+    delete process.env.OMNIAGENT_GATEWAY_PORT;
+    delete process.env.OMNIAGENT_PROFILE;
     serviceReadCommand.mockResolvedValue(null);
   });
 
@@ -133,10 +133,10 @@ describe("daemon-cli coverage", () => {
     serviceReadCommand.mockResolvedValueOnce({
       programArguments: ["/bin/node", "cli", "gateway", "--port", "19001"],
       environment: {
-        OPENCLAW_PROFILE: "dev",
-        OPENCLAW_STATE_DIR: "/tmp/openclaw-daemon-state",
-        OPENCLAW_CONFIG_PATH: "/tmp/openclaw-daemon-state/openclaw.json",
-        OPENCLAW_GATEWAY_PORT: "19001",
+        OMNIAGENT_PROFILE: "dev",
+        OMNIAGENT_STATE_DIR: "/tmp/omniagent-daemon-state",
+        OMNIAGENT_CONFIG_PATH: "/tmp/omniagent-daemon-state/omniagent.json",
+        OMNIAGENT_GATEWAY_PORT: "19001",
       },
       sourcePath: "/tmp/bot.molt.gateway.plist",
     });

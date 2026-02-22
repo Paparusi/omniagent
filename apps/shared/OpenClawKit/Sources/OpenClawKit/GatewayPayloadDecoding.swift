@@ -1,4 +1,4 @@
-import OpenClawProtocol
+import OmniAgentProtocol
 import Foundation
 
 public enum GatewayPayloadDecoding {

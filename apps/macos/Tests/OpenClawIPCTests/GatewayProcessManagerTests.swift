@@ -1,8 +1,8 @@
-import OpenClawKit
+import OmniAgentKit
 import Foundation
 import os
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite(.serialized)
 @MainActor

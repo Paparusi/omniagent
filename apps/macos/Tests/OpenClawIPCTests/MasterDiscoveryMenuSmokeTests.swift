@@ -1,7 +1,7 @@
-import OpenClawDiscovery
+import OmniAgentDiscovery
 import SwiftUI
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite(.serialized)
 @MainActor

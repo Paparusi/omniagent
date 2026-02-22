@@ -2,7 +2,7 @@ import fs from "node:fs";
 import os from "node:os";
 import path from "node:path";
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import type { OpenClawConfig } from "../config/config.js";
+import type { OmniAgentConfig } from "../config/config.js";
 import { resolveStorePath, resolveSessionTranscriptsDirForAgent } from "../config/sessions.js";
 import { note } from "../terminal/note.js";
 import { noteStateIntegrity } from "./doctor-state-integrity.js";
@@ -13,17 +13,17 @@ vi.mock("../terminal/note.js", () => ({
 
 type EnvSnapshot = {
   HOME?: string;
-  OPENCLAW_HOME?: string;
-  OPENCLAW_STATE_DIR?: string;
-  OPENCLAW_OAUTH_DIR?: string;
+  OMNIAGENT_HOME?: string;
+  OMNIAGENT_STATE_DIR?: string;
+  OMNIAGENT_OAUTH_DIR?: string;
 };
 
 function captureEnv(): EnvSnapshot {
   return {
     HOME: process.env.HOME,
-    OPENCLAW_HOME: process.env.OPENCLAW_HOME,
-    OPENCLAW_STATE_DIR: process.env.OPENCLAW_STATE_DIR,
-    OPENCLAW_OAUTH_DIR: process.env.OPENCLAW_OAUTH_DIR,
+    OMNIAGENT_HOME: process.env.OMNIAGENT_HOME,
+    OMNIAGENT_STATE_DIR: process.env.OMNIAGENT_STATE_DIR,
+    OMNIAGENT_OAUTH_DIR: process.env.OMNIAGENT_OAUTH_DIR,
   };
 }
 
@@ -38,7 +38,7 @@ function restoreEnv(snapshot: EnvSnapshot) {
   }
 }
 
-function setupSessionState(cfg: OpenClawConfig, env: NodeJS.ProcessEnv, homeDir: string) {
+function setupSessionState(cfg: OmniAgentConfig, env: NodeJS.ProcessEnv, homeDir: string) {
   const agentId = "main";
   const sessionsDir = resolveSessionTranscriptsDirForAgent(agentId, env, () => homeDir);
   const storePath = resolveStorePath(cfg.session?.store, { agentId });
@@ -52,12 +52,12 @@ describe("doctor state integrity oauth dir checks", () => {
 
   beforeEach(() => {
     envSnapshot = captureEnv();
-    tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "openclaw-doctor-state-integrity-"));
+    tempHome = fs.mkdtempSync(path.join(os.tmpdir(), "omniagent-doctor-state-integrity-"));
     process.env.HOME = tempHome;
-    process.env.OPENCLAW_HOME = tempHome;
-    process.env.OPENCLAW_STATE_DIR = path.join(tempHome, ".openclaw");
-    delete process.env.OPENCLAW_OAUTH_DIR;
-    fs.mkdirSync(process.env.OPENCLAW_STATE_DIR, { recursive: true, mode: 0o700 });
+    process.env.OMNIAGENT_HOME = tempHome;
+    process.env.OMNIAGENT_STATE_DIR = path.join(tempHome, ".omniagent");
+    delete process.env.OMNIAGENT_OAUTH_DIR;
+    fs.mkdirSync(process.env.OMNIAGENT_STATE_DIR, { recursive: true, mode: 0o700 });
     vi.mocked(note).mockReset();
   });
 
@@ -67,7 +67,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("does not prompt for oauth dir when no whatsapp/pairing config is active", async () => {
-    const cfg: OpenClawConfig = {};
+    const cfg: OmniAgentConfig = {};
     setupSessionState(cfg, process.env, tempHome);
     const confirmSkipInNonInteractive = vi.fn(async () => false);
 
@@ -88,7 +88,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("prompts for oauth dir when whatsapp is configured", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       channels: {
         whatsapp: {},
       },
@@ -112,7 +112,7 @@ describe("doctor state integrity oauth dir checks", () => {
   });
 
   it("prompts for oauth dir when a channel dmPolicy is pairing", async () => {
-    const cfg: OpenClawConfig = {
+    const cfg: OmniAgentConfig = {
       channels: {
         telegram: {
           dmPolicy: "pairing",

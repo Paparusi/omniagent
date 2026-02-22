@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/irc",
+  "name": "@omniagent/irc",
   "version": "2026.2.22",
-  "description": "OpenClaw IRC channel plugin",
+  "description": "OmniAgent IRC channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "omniagent": "workspace:*"
   },
-  "openclaw": {
+  "omniagent": {
     "extensions": [
       "./index.ts"
     ]

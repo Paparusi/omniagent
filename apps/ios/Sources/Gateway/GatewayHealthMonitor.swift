@@ -1,5 +1,5 @@
 import Foundation
-import OpenClawKit
+import OmniAgentKit
 
 @MainActor
 final class GatewayHealthMonitor {

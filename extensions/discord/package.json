@@ -1,12 +1,12 @@
 {
-  "name": "@openclaw/discord",
+  "name": "@omniagent/discord",
   "version": "2026.2.22",
-  "description": "OpenClaw Discord channel plugin",
+  "description": "OmniAgent Discord channel plugin",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "omniagent": "workspace:*"
   },
-  "openclaw": {
+  "omniagent": {
     "extensions": [
       "./index.ts"
     ]

@@ -1,5 +1,5 @@
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite struct NodePairingReconcilePolicyTests {
     @Test func policyPollsOnlyWhenActive() {

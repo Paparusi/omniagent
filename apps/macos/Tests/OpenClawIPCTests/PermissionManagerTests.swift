@@ -1,7 +1,7 @@
-import OpenClawIPC
+import OmniAgentIPC
 import CoreLocation
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite(.serialized)
 @MainActor

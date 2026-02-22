@@ -1,13 +1,13 @@
 import AppKit
-import OpenClawProtocol
+import OmniAgentProtocol
 import Foundation
 import Testing
 
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite(.serialized)
 struct LowCoverageHelperTests {
-    private typealias ProtoAnyCodable = OpenClawProtocol.AnyCodable
+    private typealias ProtoAnyCodable = OmniAgentProtocol.AnyCodable
 
     @Test func anyCodableHelperAccessors() throws {
         let payload: [String: ProtoAnyCodable] = [

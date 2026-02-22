@@ -1,0 +1,107 @@
+{
+  "id": "a2a-corp",
+  "name": "A2A Corp",
+  "description": "AI Agent economic layer — tool marketplace (AgentForge), zero-knowledge vault (PassBox), and blockchain payments (APay).",
+  "version": "2.0.0",
+  "channels": [],
+  "skills": ["./skills"],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "agentforge": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "apiKey": { "type": "string" },
+          "baseUrl": { "type": "string", "default": "http://localhost:3002" }
+        },
+        "required": ["apiKey"]
+      },
+      "passbox": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "token": { "type": "string" },
+          "serverUrl": { "type": "string", "default": "http://localhost:3001" }
+        },
+        "required": ["token"]
+      },
+      "apay": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "serverUrl": { "type": "string", "default": "http://localhost:3003" },
+          "apiKey": { "type": "string" },
+          "sessionId": { "type": "string" },
+          "chain": { "type": "string", "default": "base" },
+          "agentPrivateKey": { "type": "string" },
+          "escrowAddress": { "type": "string" },
+          "serviceRegistryAddress": { "type": "string" }
+        },
+        "required": ["apiKey"]
+      }
+    }
+  },
+  "uiHints": {
+    "agentforge.apiKey": {
+      "label": "AgentForge API Key",
+      "sensitive": true,
+      "placeholder": "agf_...",
+      "help": "API key for AgentForge marketplace (or use ${AGENTFORGE_API_KEY})"
+    },
+    "agentforge.baseUrl": {
+      "label": "AgentForge URL",
+      "placeholder": "http://localhost:3002",
+      "advanced": true
+    },
+    "passbox.token": {
+      "label": "PassBox Token",
+      "sensitive": true,
+      "help": "Authentication token for PassBox vault (or use ${PASSBOX_TOKEN})"
+    },
+    "passbox.serverUrl": {
+      "label": "PassBox URL",
+      "placeholder": "http://localhost:3001",
+      "advanced": true
+    },
+    "apay.apiKey": {
+      "label": "APay API Key",
+      "sensitive": true,
+      "placeholder": "apay_...",
+      "help": "API key for APay payment platform (or use ${APAY_API_KEY})"
+    },
+    "apay.serverUrl": {
+      "label": "APay Server URL",
+      "placeholder": "http://localhost:3003",
+      "advanced": true
+    },
+    "apay.sessionId": {
+      "label": "APay Session ID",
+      "placeholder": "0x...",
+      "help": "Escrow session ID for on-chain payments"
+    },
+    "apay.chain": {
+      "label": "Blockchain Network",
+      "placeholder": "base-sepolia",
+      "advanced": true
+    },
+    "apay.agentPrivateKey": {
+      "label": "Agent Private Key",
+      "sensitive": true,
+      "placeholder": "0x...",
+      "advanced": true,
+      "help": "Private key for on-chain signing (or use ${APAY_AGENT_PRIVATE_KEY})"
+    },
+    "apay.escrowAddress": {
+      "label": "Escrow Contract",
+      "placeholder": "0x...",
+      "advanced": true
+    },
+    "apay.serviceRegistryAddress": {
+      "label": "ServiceRegistry Contract",
+      "placeholder": "0x...",
+      "advanced": true
+    }
+  }
+}

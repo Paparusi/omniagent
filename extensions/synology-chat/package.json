@@ -1,13 +1,13 @@
 {
-  "name": "@openclaw/synology-chat",
+  "name": "@omniagent/synology-chat",
   "version": "2026.2.22",
   "private": true,
-  "description": "Synology Chat channel plugin for OpenClaw",
+  "description": "Synology Chat channel plugin for OmniAgent",
   "type": "module",
   "devDependencies": {
-    "openclaw": "workspace:*"
+    "omniagent": "workspace:*"
   },
-  "openclaw": {
+  "omniagent": {
     "extensions": [
       "./index.ts"
     ],
@@ -17,11 +17,11 @@
       "selectionLabel": "Synology Chat (Webhook)",
       "docsPath": "/channels/synology-chat",
       "docsLabel": "synology-chat",
-      "blurb": "Connect your Synology NAS Chat to OpenClaw with full agent capabilities.",
+      "blurb": "Connect your Synology NAS Chat to OmniAgent with full agent capabilities.",
       "order": 90
     },
     "install": {
-      "npmSpec": "@openclaw/synology-chat",
+      "npmSpec": "@omniagent/synology-chat",
       "localPath": "extensions/synology-chat",
       "defaultChoice": "npm"
     }

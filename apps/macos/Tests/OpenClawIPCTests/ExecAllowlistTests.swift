@@ -1,6 +1,6 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 /// These cases cover optional `security=allowlist` behavior.
 /// Default install posture remains deny-by-default for exec on macOS node-host.
@@ -90,10 +90,10 @@ struct ExecAllowlistTests {
     }
 
     @Test func resolveForAllowlistSplitsShellChains() {
-        let command = ["/bin/sh", "-lc", "echo allowlisted && /usr/bin/touch /tmp/openclaw-allowlist-test"]
+        let command = ["/bin/sh", "-lc", "echo allowlisted && /usr/bin/touch /tmp/omniagent-allowlist-test"]
         let resolutions = ExecCommandResolution.resolveForAllowlist(
             command: command,
-            rawCommand: "echo allowlisted && /usr/bin/touch /tmp/openclaw-allowlist-test",
+            rawCommand: "echo allowlisted && /usr/bin/touch /tmp/omniagent-allowlist-test",
             cwd: nil,
             env: ["PATH": "/usr/bin:/bin"])
         #expect(resolutions.count == 2)
@@ -113,20 +113,20 @@ struct ExecAllowlistTests {
     }
 
     @Test func resolveForAllowlistFailsClosedOnCommandSubstitution() {
-        let command = ["/bin/sh", "-lc", "echo $(/usr/bin/touch /tmp/openclaw-allowlist-test-subst)"]
+        let command = ["/bin/sh", "-lc", "echo $(/usr/bin/touch /tmp/omniagent-allowlist-test-subst)"]
         let resolutions = ExecCommandResolution.resolveForAllowlist(
             command: command,
-            rawCommand: "echo $(/usr/bin/touch /tmp/openclaw-allowlist-test-subst)",
+            rawCommand: "echo $(/usr/bin/touch /tmp/omniagent-allowlist-test-subst)",
             cwd: nil,
             env: ["PATH": "/usr/bin:/bin"])
         #expect(resolutions.isEmpty)
     }
 
     @Test func resolveForAllowlistFailsClosedOnQuotedCommandSubstitution() {
-        let command = ["/bin/sh", "-lc", "echo \"ok $(/usr/bin/touch /tmp/openclaw-allowlist-test-quoted-subst)\""]
+        let command = ["/bin/sh", "-lc", "echo \"ok $(/usr/bin/touch /tmp/omniagent-allowlist-test-quoted-subst)\""]
         let resolutions = ExecCommandResolution.resolveForAllowlist(
             command: command,
-            rawCommand: "echo \"ok $(/usr/bin/touch /tmp/openclaw-allowlist-test-quoted-subst)\"",
+            rawCommand: "echo \"ok $(/usr/bin/touch /tmp/omniagent-allowlist-test-quoted-subst)\"",
             cwd: nil,
             env: ["PATH": "/usr/bin:/bin"])
         #expect(resolutions.isEmpty)

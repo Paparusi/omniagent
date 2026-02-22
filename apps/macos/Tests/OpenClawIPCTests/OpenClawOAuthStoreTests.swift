@@ -1,20 +1,20 @@
 import Foundation
 import Testing
-@testable import OpenClaw
+@testable import OmniAgent
 
 @Suite
-struct OpenClawOAuthStoreTests {
+struct OmniAgentOAuthStoreTests {
     @Test
     func returnsMissingWhenFileAbsent() {
         let url = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-oauth-\(UUID().uuidString)")
+            .appendingPathComponent("omniagent-oauth-\(UUID().uuidString)")
             .appendingPathComponent("oauth.json")
-        #expect(OpenClawOAuthStore.anthropicOAuthStatus(at: url) == .missingFile)
+        #expect(OmniAgentOAuthStore.anthropicOAuthStatus(at: url) == .missingFile)
     }
 
     @Test
-    func usesEnvOverrideForOpenClawOAuthDir() throws {
-        let key = "OPENCLAW_OAUTH_DIR"
+    func usesEnvOverrideForOmniAgentOAuthDir() throws {
+        let key = "OMNIAGENT_OAUTH_DIR"
         let previous = ProcessInfo.processInfo.environment[key]
         defer {
             if let previous {
@@ -25,10 +25,10 @@ struct OpenClawOAuthStoreTests {
         }
 
         let dir = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-oauth-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("omniagent-oauth-\(UUID().uuidString)", isDirectory: true)
         setenv(key, dir.path, 1)
 
-        #expect(OpenClawOAuthStore.oauthDir().standardizedFileURL == dir.standardizedFileURL)
+        #expect(OmniAgentOAuthStore.oauthDir().standardizedFileURL == dir.standardizedFileURL)
     }
 
     @Test
@@ -42,7 +42,7 @@ struct OpenClawOAuthStoreTests {
             ],
         ])
 
-        #expect(OpenClawOAuthStore.anthropicOAuthStatus(at: url).isConnected)
+        #expect(OmniAgentOAuthStore.anthropicOAuthStatus(at: url).isConnected)
     }
 
     @Test
@@ -55,7 +55,7 @@ struct OpenClawOAuthStoreTests {
             ],
         ])
 
-        #expect(OpenClawOAuthStore.anthropicOAuthStatus(at: url).isConnected)
+        #expect(OmniAgentOAuthStore.anthropicOAuthStatus(at: url).isConnected)
     }
 
     @Test
@@ -68,7 +68,7 @@ struct OpenClawOAuthStoreTests {
             ],
         ])
 
-        #expect(OpenClawOAuthStore.anthropicOAuthStatus(at: url) == .missingProviderEntry)
+        #expect(OmniAgentOAuthStore.anthropicOAuthStatus(at: url) == .missingProviderEntry)
     }
 
     @Test
@@ -81,12 +81,12 @@ struct OpenClawOAuthStoreTests {
             ],
         ])
 
-        #expect(OpenClawOAuthStore.anthropicOAuthStatus(at: url) == .missingTokens)
+        #expect(OmniAgentOAuthStore.anthropicOAuthStatus(at: url) == .missingTokens)
     }
 
     private func writeOAuthFile(_ json: [String: Any]) throws -> URL {
         let dir = FileManager().temporaryDirectory
-            .appendingPathComponent("openclaw-oauth-\(UUID().uuidString)", isDirectory: true)
+            .appendingPathComponent("omniagent-oauth-\(UUID().uuidString)", isDirectory: true)
         try FileManager().createDirectory(at: dir, withIntermediateDirectories: true)
 
         let url = dir.appendingPathComponent("oauth.json")

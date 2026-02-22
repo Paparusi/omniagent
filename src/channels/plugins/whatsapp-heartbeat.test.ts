@@ -9,17 +9,17 @@ vi.mock("../../pairing/pairing-store.js", () => ({
   readChannelAllowFromStoreSync: vi.fn(() => []),
 }));
 
-import type { OpenClawConfig } from "../../config/config.js";
+import type { OmniAgentConfig } from "../../config/config.js";
 import { loadSessionStore } from "../../config/sessions.js";
 import { readChannelAllowFromStoreSync } from "../../pairing/pairing-store.js";
 import { resolveWhatsAppHeartbeatRecipients } from "./whatsapp-heartbeat.js";
 
-function makeCfg(overrides?: Partial<OpenClawConfig>): OpenClawConfig {
+function makeCfg(overrides?: Partial<OmniAgentConfig>): OmniAgentConfig {
   return {
     bindings: [],
     channels: {},
     ...overrides,
-  } as OpenClawConfig;
+  } as OmniAgentConfig;
 }
 
 describe("resolveWhatsAppHeartbeatRecipients", () => {
@@ -32,7 +32,7 @@ describe("resolveWhatsAppHeartbeatRecipients", () => {
   }
 
   function resolveWith(
-    cfgOverrides: Partial<OpenClawConfig> = {},
+    cfgOverrides: Partial<OmniAgentConfig> = {},
     opts?: Parameters<typeof resolveWhatsAppHeartbeatRecipients>[1],
   ) {
     return resolveWhatsAppHeartbeatRecipients(makeCfg(cfgOverrides), opts);
@@ -128,7 +128,7 @@ describe("resolveWhatsAppHeartbeatRecipients", () => {
       a: { lastChannel: "whatsapp", lastTo: "+15550000001", updatedAt: 2, sessionId: "a" },
     });
     const result = resolveWith({
-      session: { scope: "global" } as OpenClawConfig["session"],
+      session: { scope: "global" } as OmniAgentConfig["session"],
       channels: { whatsapp: { allowFrom: ["*", "+15550000009"] } as never },
     });
     expect(result).toEqual({ recipients: ["+15550000009"], source: "allowFrom" });
